@@ -1,0 +1,4 @@
+{% if hostvars[inventory_hostname]['dhcpd_common_enable_pxe_boot'] is defined %}
+{{ 'filename ' + '\"' + hostvars[inventory_hostname]['dhcpd_common_pxe_boot_file'] + '\";' }}
+{{ 'next-server ' + hostvars[inventory_hostname]['dhcpd_common_pxe_boot_server'] + ';' }}
+{% endif %}

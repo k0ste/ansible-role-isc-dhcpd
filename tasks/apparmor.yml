@@ -1,0 +1,17 @@
+---
+- name: Check if the /etc/apparmor.d/local folder exists
+  stat:
+    path: "{{ hostvars[inventory_hostname]['dhcpd_apparmor_dest'] }}"
+  register: "apparmor_local"
+- name: Configure AppArmor to allow dhcpd access to temporary ansible files for configuration checking
+  copy:
+    src: "apparmor/usr.sbin.dhcpd"
+    dest: "/etc/apparmor.d/local/usr.sbin.dhcpd"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  when: "apparmor_local.stat.exists"
+  notify:
+    - 'Enable apparmor'
+    - 'Restart apparmor'
+- meta: flush_handlers

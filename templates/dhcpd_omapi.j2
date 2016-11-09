@@ -1,0 +1,3 @@
+{% if hostvars[inventory_hostname]['dhcpd_omapi_port'] is defined %}
+{{ 'omapi-port ' + hostvars[inventory_hostname]['dhcpd_omapi_port'] | string + ';' }}
+{% endif %}

@@ -1,0 +1,13 @@
+{% if (p.range_start is defined and p.range_start | ipaddr()) and (p.range_end is defined and p.range_end | ipaddr()) %}
+{{ '  pool {' }}
+{% if p.rule is defined and p.rule != '' %}
+{{ '    ' + p.rule + ';' }}
+{% endif %}
+{{ '    range ' + p.range_start + ' ' + p.range_end + ';' }}
+{% if p.parameters is defined %}
+{% for pr in p.parameters %}
+{{ '    ' + pr + ';' }}
+{% endfor %}
+{% endif %}
+{{ '  }' }}
+{% endif %}

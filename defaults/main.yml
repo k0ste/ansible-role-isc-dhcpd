@@ -1,13 +1,19 @@
 ---
-configure_apparmor: false
-dhcp_common_unknown_clients: true
-dhcp_ddns_client_updates: true
-dhcp_ddns_update_static_leases: false
-dhcp_ddns_update_style: interim
-dhcp_ddns_updates: false
-dhcp_use_ansible_managed: true
-dhcp_interfaces: eth0
-dhcp_subnets: []
-dhcp_hosts: []
-dhcp_classes: []
-dhcp_shared_networks: []
+dhcpd_common_unknown_clients: true
+dhcpd_common_enable_pxe_boot: []
+dhcpd_ddns_client_updates: true
+dhcpd_ddns_update_static_leases: false
+dhcpd_ddns_update_style: interim
+dhcpd_ddns_updates: false
+dhcpd_interfaces: eth0
+dhcpd_subnets: []
+dhcpd_hosts: []
+dhcpd_classes: []
+dhcpd_shared_networks: []
+
+dhcpd_configure_apparmor: 'false'
+dhcpd_use_ansible_managed: 'true'
+dhcpd_apparmor_enable: 'false'
+dhcpd_apparmor_restart: 'false'
+dhcpd_dhcpd_enable: 'false'
+dhcpd_dhcpd_restart: 'false'

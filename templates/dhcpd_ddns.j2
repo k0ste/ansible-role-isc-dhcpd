@@ -1,0 +1,28 @@
+{% if hostvars[inventory_hostname]['dhcpd_ddns_updates'] is defined and hostvars[inventory_hostname]['dhcpd_ddns_updates'] in ['on', 'off'] %}
+{{ 'ddns-updates ' + hostvars[inventory_hostname]['dhcpd_ddns_updates'] + ';' }}
+{% endif %}
+{% if hostvars[inventory_hostname]['dhcpd_ddns_update_style'] is defined and hostvars[inventory_hostname]['dhcpd_ddns_update_style'] in ['standard', 'interim', 'none'] %}
+{{ 'ddns-update-style ' + hostvars[inventory_hostname]['dhcpd_ddns_update_style'] + ';' }}
+{% endif %}
+{% if hostvars[inventory_hostname]['dhcpd_ddns_client_updates'] is defined and hostvars[inventory_hostname]['dhcpd_ddns_client_updates'] in ['allow', 'ignore'] %}
+{{ hostvars[inventory_hostname]['dhcpd_ddns_updates'] + ' client-updates;' }}
+{% endif %}
+{% if hostvars[inventory_hostname]['dhcpd_ddns_update_static_leases'] is defined and hostvars[inventory_hostname]['dhcpd_ddns_update_static_leases'] in ['on', 'off'] %}
+{{ 'update-static-leases ' + hostvars[inventory_hostname]['dhcpd_ddns_update_static_leases'] + ';' }}
+{% endif %}
+{% if hostvars[inventory_hostname]['dhcpd_ddns_keys'] is defined %}
+{% for k in hostvars[inventory_hostname]['dhcpd_ddns_keys'] %}
+{{ 'key ' + k.name + ' {' }}
+{{ '  algorithm hmac-md5;' }}
+{{ '  secret ' + k.value + ';' }}
+{{ '}' }}
+{% endfor %}
+{% endif %}
+{% if hostvars[inventory_hostname]['dhcpd_ddns_zones'] is defined %}
+{% for z in hostvars[inventory_hostname]['dhcpd_ddns_zones'] %}
+{{ 'zone ' + z.name + '. {' }}
+{{ '  primary ' + z.primary + ';' }}
+{{ '  key ' + z.key + ';' }}
+{{ '}' }}
+{% endfor %}
+{% endif %}

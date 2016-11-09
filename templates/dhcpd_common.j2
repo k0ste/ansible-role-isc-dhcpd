@@ -1,0 +1,30 @@
+{% if hostvars[inventory_hostname]['dhcpd_common_unknown_clients'] is defined and hostvars[inventory_hostname]['dhcpd_common_unknown_clients'] in ['allow', 'deny', 'ignore'] %}
+{{ hostvars[inventory_hostname]['dhcpd_common_unknown_clients'] + ' unknown-clients;' }}
+{% endif %}
+{% if hostvars[inventory_hostname]['dhcpd_common_bootp'] is defined and hostvars[inventory_hostname]['dhcpd_common_bootp'] in ['allow', 'deny', 'ignore'] %}
+{{ hostvars[inventory_hostname]['dhcpd_common_bootp'] + ' bootp;' }}
+{% endif %}
+{% if hostvars[inventory_hostname]['dhcpd_common_duplicates'] is defined and hostvars[inventory_hostname]['dhcpd_common_duplicates'] in ['allow', 'deny'] %}
+{{ hostvars[inventory_hostname]['dhcpd_common_duplicates'] + ' duplicates;' }}
+{% endif %}
+{% if hostvars[inventory_hostname]['dhcpd_common_leasequery'] is defined and hostvars[inventory_hostname]['dhcpd_common_leasequery'] in ['allow', 'deny'] %}
+{{ hostvars[inventory_hostname]['dhcpd_common_leasequery'] + ' leasequery;' }}
+{% endif %}
+{% if hostvars[inventory_hostname]['dhcpd_common_domain'] is defined %}
+{{ 'option domain-name ' + '\"' + hostvars[inventory_hostname]['dhcpd_common_domain'] + '\";' }}
+{% endif %}
+{% if hostvars[inventory_hostname]['dhcpd_common_nameservers'] is defined %}
+{{ 'option domain-name-servers ' + '\"' + hostvars[inventory_hostname]['dhcpd_common_nameservers'] + '\";' }}
+{% endif %}
+{% if hostvars[inventory_hostname]['dhcpd_common_default_lease_time'] is defined %}
+{{ 'default-lease-time ' + hostvars[inventory_hostname]['dhcpd_common_default_lease_time'] | string + ';' }}
+{% endif %}
+{% if hostvars[inventory_hostname]['dhcpd_common_max_lease_time'] is defined %}
+{{ 'max-lease-time ' + hostvars[inventory_hostname]['dhcpd_common_max_lease_time'] | string + ';' }}
+{% endif %}
+{% if hostvars[inventory_hostname]['dhcpd_common_authoritative'] is defined %}
+{{ 'authoritative;' }}
+{% endif %}
+{% if hostvars[inventory_hostname]['dhcpd_common_log_facility'] is defined %}
+{{ 'log-facility ' + hostvars[inventory_hostname]['dhcpd_common_log_facility'] + ';' }}
+{% endif %}

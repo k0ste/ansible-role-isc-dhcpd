@@ -1,6 +1,8 @@
 ---
-dhcp_server_package: dhcp
-dhcp_server_config: /etc/dhcpd.conf
-dhcp_service: dhcpd4
-dhcp_service_config: []
-apparmor_service: apparmor
+dhcpd_server_package: 'dhcp'
+dhcpd_conf_dest: '/etc'
+dhcpd_dhcpd_conf: 'dhcpd.conf'
+dhcpd_dhcpd_service: 'dhcpd4'
+dhcpd_service_conf: []
+dhcpd_apparmor_dest: '/etc/apparmor.d/local'
+dhcpd_apparmor_service: 'apparmor'

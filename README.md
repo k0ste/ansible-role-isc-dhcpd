@@ -19,8 +19,8 @@ If you specify the `configure_apparmor: true` variable for your host. This role 
 
 Difference between global and subnet interface options
 -------------------------------------------------------
-Global dhcp_interfaces option makes listen on defined interfaces all subnets. Interface per subnet definition allows listen as much subnets as you want.
-Global dhcp_interfaces option does not work on systemd distros (ArchLinux, CentOS 7, Fedora), listen by default on interface with declared subnet. You cat rewrite systemd service, but is dirty. Instead this, describe interfaces in configuration. Is modern and properly.
+Global dhcpd_interfaces option makes listen on defined interfaces all subnets. Interface per subnet definition allows listen as much subnets as you want.
+Global dhcpd_interfaces option does not work on systemd distros (ArchLinux, CentOS 7, Fedora), listen by default on interface with declared subnet. You cat rewrite systemd service, but is dirty. Instead this, describe interfaces in configuration. Is modern and properly.
 
 Role Variables
 --------------
@@ -30,39 +30,39 @@ them are as follows. These are all based on the configuration variables of the
 DHCP server configuration.
 
     # AppArmor configuration - important for Ubuntu 14.04
-    configure_apparmor: true
+    dhcpd_configure_apparmor: true
 
     # Basic configuration information
-    dhcp_use_ansible_managed: true|false (default is true)
-    dhcp_interfaces: eth0
-    dhcp_common_domain: example.org
-    dhcp_common_nameservers: ns1.example.org, ns2.example.org
-    dhcp_common_default_lease_time: 600
-    dhcp_common_max_lease_time: 7200
-    dhcp_common_ddns_update_style: none
-    dhcp_common_authoritative: true
-    dhcp_common_log_facility: local7
-    dhcp_common_options:
+    dhcpd_use_ansible_managed: true|false (default is true)
+    dhcpd_interfaces: eth0
+    dhcpd_common_domain: example.org
+    dhcpd_common_nameservers: ns1.example.org, ns2.example.org
+    dhcpd_common_default_lease_time: 600
+    dhcpd_common_max_lease_time: 7200
+    dhcpd_common_ddns_update_style: none
+    dhcpd_common_authoritative: true
+    dhcpd_common_log_facility: local7
+    dhcpd_common_options:
     - opt66 code 66 = string
-    dhcp_common_parameters:
+    dhcpd_common_parameters:
     - filename "pxelinux.0"
-    dhcp_common_unknown_clients: true|false (default is true)
+    dhcpd_common_unknown_clients: true|false (default is true)
 
     # DDNS configuration
-    dhcp_ddns_client_updates: true|false (default is false)
-    dhcp_ddns_updates: true|false (default is true)
-    dhcp_ddns_update_static_leases: true|false (default is false)
-    dhcp_ddns_update_style: interim
-    dhcp_ddns_keys:
+    dhcpd_ddns_client_updates: on|off
+    dhcpd_ddns_updates: true|false (default is true)
+    dhcpd_ddns_update_static_leases: true|false (default is false)
+    dhcpd_ddns_update_style: interim
+    dhcpd_ddns_keys:
       - the_key_name: the_key_value
-    dhcp_ddns_zones:
+    dhcpd_ddns_zones:
       -
         name:example.org
         primary: 192.168.0.1
-        key: a_key_name_from_dhcp_ddns_keys_list
+        key: a_key_name_from_dhcpd_ddns_keys_list
 
     # Subnet configuration
-    dhcp_subnets:
+    dhcpd_subnets:
     # Required variables example
     - base: 192.168.1.0
       netmask: 255.255.255.0
@@ -92,7 +92,7 @@ DHCP server configuration.
       - filename "pxelinux.0"
 
     # Fixed lease configuration
-    dhcp_hosts:
+    dhcpd_hosts:
     - name: local-server
       mac_address: "00:11:22:33:44:55"
       fixed_address: 192.168.10.10
@@ -102,7 +102,7 @@ DHCP server configuration.
       - filename "pxelinux.0"
 
     # Class configuration
-    dhcp_classes:
+    dhcpd_classes:
     - name: foo
       rule: 'match if substring (option vendor-class-identifier, 0, 4) = "SUNW"'
     - name: CiscoSPA
@@ -113,7 +113,7 @@ DHCP server configuration.
       - opt: 'time-offset 21600'
 
     # Shared network configurations
-    dhcp_shared_networks:
+    dhcpd_shared_networks:
     - name: shared-net
       interface: vlan100
       subnets:
@@ -133,7 +133,7 @@ DHCP server configuration.
         rule: 'deny members of "foo"'
 
     # Custom if else clause
-      dhcp_ifelse:
+      dhcpd_ifelse:
       - condition: 'exists user-class and option user-class = "iPXE"'
         val: 'filename "http://my.web.server/real_boot_script.php";'
         else:
@@ -147,16 +147,16 @@ Examples
 
     - hosts: all
       roles:
-      - role: dhcp_server
-        dhcp_interfaces: eth0
-        dhcp_common_domain: example.org
-        dhcp_common_nameservers: ns1.example.org, ns2.example.org
-        dhcp_common_default_lease_time: 600
-        dhcp_common_max_lease_time: 7200
-        dhcp_common_ddns_update_style: none
-        dhcp_common_authoritative: true
-        dhcp_common_log_facility: local7
-        dhcp_subnets:
+      - role: dhcpd_server
+        dhcpd_interfaces: eth0
+        dhcpd_common_domain: example.org
+        dhcpd_common_nameservers: ns1.example.org, ns2.example.org
+        dhcpd_common_default_lease_time: 600
+        dhcpd_common_max_lease_time: 7200
+        dhcpd_common_ddns_update_style: none
+        dhcpd_common_authoritative: true
+        dhcpd_common_log_facility: local7
+        dhcpd_subnets:
         - base: 192.168.10.0
           netmask: 255.255.255.0
           range_start: 192.168.10.150
@@ -168,15 +168,15 @@ Examples
 
     - hosts: all
       roles:
-      - role: dhcp_server
-        dhcp_common_domain: example.org
-        dhcp_common_nameservers: ns1.example.org, ns2.example.org
-        dhcp_common_default_lease_time: 600
-        dhcp_common_max_lease_time: 7200
-        dhcp_common_ddns_update_style: none
-        dhcp_common_authoritative: true
-        dhcp_common_log_facility: local7
-        dhcp_subnets:
+      - role: dhcpd_server
+        dhcpd_common_domain: example.org
+        dhcpd_common_nameservers: ns1.example.org, ns2.example.org
+        dhcpd_common_default_lease_time: 600
+        dhcpd_common_max_lease_time: 7200
+        dhcpd_common_ddns_update_style: none
+        dhcpd_common_authoritative: true
+        dhcpd_common_log_facility: local7
+        dhcpd_subnets:
         - base: 192.168.10.0
           netmask: 255.255.255.0
           interface: vlan10
@@ -195,13 +195,13 @@ Examples
 
     - hosts: all
       roles:
-      - role: dhcp_server
-        dhcp_common_default_lease_time: 600
-        dhcp_common_max_lease_time: 7200
-        dhcp_common_ddns_update_style: none
-        dhcp_common_authoritative: true
-        dhcp_common_log_facility: local7
-        dhcp_subnets:
+      - role: dhcpd_server
+        dhcpd_common_default_lease_time: 600
+        dhcpd_common_max_lease_time: 7200
+        dhcpd_common_ddns_update_style: none
+        dhcpd_common_authoritative: true
+        dhcpd_common_log_facility: local7
+        dhcpd_subnets:
         - base: 192.168.10.0
           netmask: 255.255.255.0
           interface: vlan10
@@ -210,7 +210,7 @@ Examples
           range_start: 192.168.10.150
           range_end: 192.168.10.200
           routers: 192.168.10.1
-        dhcp_shared_networks:
+        dhcpd_shared_networks:
         - name: sharednet
           interface: vlan20
           subnets:

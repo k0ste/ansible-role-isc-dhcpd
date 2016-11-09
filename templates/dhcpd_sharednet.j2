@@ -1,0 +1,57 @@
+{% for n in hostvars[inventory_hostname]['dhcpd_shared_networks'] %}
+{{ 'shared-network ' + n.name + ' {' }}
+{% if n.interface is defined and n.interface != '' %}
+{{ '  interface ' + '\"' + n.interface + '\";' }}
+{% endif %}
+{% for s in n.subnets %}
+{% if s.base is defined and s.base | ipaddr() %}
+{{ '  subnet ' + s.base | ipaddr('network') | string + ' netmask ' + s.base | ipaddr('netmask') | string + ' {' }}
+{% if (s.range_start is defined and s.range_start | ipaddr()) and (s.range_end is defined and s.range_end | ipaddr()) %}
+{{ '    range ' + s.range_start + ' ' + s.range_end + ';' }}
+{% endif %}
+{% if s.routers is defined and s.routers != '' %}
+{{ '    option routers ' + s.routers + ';' }}
+{% endif %}
+{% if s.broadcast_address is defined and s.broadcast_address | ipaddr() %}
+{{ '    option broadcast-address ' + s.broadcast_address | string + ';' }}
+{% endif %}
+{% if s.domain_nameservers is defined and s.domain_nameservers != '' %}
+{{ '    option domain-name-servers ' + s.domain_nameservers + ';' }}
+{% endif %}
+{% if s.domain_name is defined and s.domain_name != '' %}
+{{ '    option domain-name ' + '\"' + s.domain_name + '\";' }}
+{% endif %}
+{% if s.ntp_servers is defined and s.ntp_servers != '' %}
+{{ '    option ntp-servers ' + s.ntp_servers + ';' }}
+{% endif %}
+{% if s.default_lease_time is defined and s.default_lease_time != '' %}
+{{ '    default-lease-time ' + s.default_lease_time | string + ';' }}
+{% endif %}
+{% if s.max_lease_time is defined and s.max_lease_time != '' %}
+{{ '    max-lease-time ' + s.max_lease_time | string + ';' }}
+{% endif %}
+{% if s.pools is defined %}
+{% for p in s.pools %}
+{% include 'dhcpd_pool.j2' %}
+{% endfor %}
+{% endif %}
+{% if s.parameters is defined %}
+{% for p in s.parameters %}
+{{ '  ' + p + ';' }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{{ '  }' }}
+{% endfor %}
+{% if n.pools is defined %}
+{% for p in n.pools %}
+{% include 'dhcpd_pool.j2' %}
+{% endfor %}
+{% endif %}
+{% if n.parameters is defined %}
+{% for p in n.parameters %}
+{{ '  ' + p + ';' }}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{{ '}' }}

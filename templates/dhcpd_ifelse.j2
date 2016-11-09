@@ -1,0 +1,12 @@
+{% for e in hostvars[inventory_hostname]['dhcpd_ifelse'] %}
+{{ 'if ' + e.condition + ' {' }}
+{{ ' ' + e.value }}
+{{ '}' }}
+{% if e.else is defined %}
+{% for ee in e.else %}
+{{ 'else {' }}
+{{ ' ' + ee.value }}
+{{ '}' }}
+{% endfor %}
+{% endif %}
+{% endfor %}

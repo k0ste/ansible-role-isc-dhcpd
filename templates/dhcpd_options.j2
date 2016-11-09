@@ -1,0 +1,5 @@
+{% if hostvars[inventory_hostname]['dhcpd_common_options'] is defined %}
+{% for o in hostvars[inventory_hostname]['dhcpd_common_options'] %}
+{{ 'option ' + o.name + ' code ' + o.code + ' = ' + o.type + ';' }}
+{% endfor %}
+{% endif %}

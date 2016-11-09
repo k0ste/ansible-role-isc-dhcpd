@@ -1,0 +1,34 @@
+{% for h in hostvars[inventory_hostname]['dhcpd_hosts'] %}
+{{ 'host ' + h.name + ' {' }}
+{{ '  hardware ethernet ' + h.mac_address | hwaddr() + ';' }}
+{% if hostvars[inventory_hostname]['dhcpd_ddns_manage'] is defined and hostvars[inventory_hostname]['dhcpd_ddns_manage'] == 'true' %}
+{{ '  ddns-hostname ' + h.name + ';' }}
+{% endif %}
+{% if h.fixed_address is defined and h.fixed_address | ipaddr() %}
+{{ '  fixed-address ' + h.fixed_address + ';' }}
+{% endif %}
+{% if h.routers is defined and h.routers != '' %}
+{{ '  option routers ' + h.routers + ';' }}
+{% endif %}
+{% if h.broadcast_address is defined and h.broadcast_address | ipaddr() %}
+{{ '  option broadcast-address ' + h.broadcast_address + ';' }}
+{% endif %}
+{% if h.domain_nameservers is defined and h.domain_nameservers != '' %}
+{{ '  option domain-name-servers ' + h.domain_nameservers + ';' }}
+{% endif %}
+{% if h.domain_name is defined and h.domain_name != '' %}
+{{ '  option domain-name ' + '\"' + h.domain_name + '\";' }}
+{% endif %}
+{% if h.default_lease_time is defined and h.default_lease_time != '' %}
+{{ '  default-lease-time ' + h.default_lease_time | string + ';' }}
+{% endif %}
+{% if h.max_lease_time is defined and h.max_lease_time != '' %}
+{{ '  max-lease-time ' + h.max_lease_time | string + ';' }}
+{% endif %}
+{% if h.parameters is defined %}
+{% for p in h.parameters %}
+{{ '  ' + p + ';' }}
+{% endfor %}
+{% endif %}
+{{ '}' }}
+{% endfor %}

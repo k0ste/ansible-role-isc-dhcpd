@@ -1,6 +1,8 @@
 ---
-dhcp_server_package: isc-dhcp-server
-dhcp_server_config: /etc/dhcp/dhcpd.conf
-dhcp_service: isc-dhcp-server
-dhcp_service_config: /etc/default/isc-dhcp-server
-apparmor_service: apparmor
+dhcpd_server_package: 'isc-dhcp-server'
+dhcpd_conf_dest: '/etc/dhcp'
+dhcpd_dhcpd_conf: 'dhcpd.conf'
+dhcpd_dhcpd_service: 'isc-dhcp-server'
+dhcpd_service_conf: '/etc/default/isc-dhcp-server'
+dhcpd_apparmor_dest: '/etc/apparmor.d/local'
+dhcpd_apparmor_service: 'apparmor'
