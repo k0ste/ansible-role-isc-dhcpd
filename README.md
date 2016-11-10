@@ -51,19 +51,19 @@ CentOS 7, Fedora), listen by default on interface with declared subnet. You
 can rewrite systemd service, but is dirty. Instead this, describe interfaces in
 configuration. Is modern and properly.
 
-Global hosts
+Global hosts, subnets and classess
 ---------------
-The role have global hosts and subnets definition:
+It is meant to define in `group_vars`, for example it can be management vlan,
+or employees with laptops (traveling work) - new day in another office.
 
 ```
 dhcpd_global_hosts
 dhcpd_global_subnets
+dhcpd_global_classes
 ```
 
 And can be activated via `dhcpd_use_global: true`.
-
-It is meant to define in `group_vars`, for example it can be management vlan,
-or employees with laptops (traveling work) - new day in another office.
+The syntax is match to non global definition.
 
 Extra
 --------
@@ -143,6 +143,7 @@ dhcpd_subnets:
   ntp_servers: pool.ntp.org
   default_lease_time: 3600
   max_lease_time: 7200
+  unknown_clients: deny
   pools:
   - range_start: 192.168.100.10
     range_end: 192.168.100.20
@@ -152,18 +153,29 @@ dhcpd_subnets:
   - range_start: 192.168.110.10
     range_end: 192.168.110.20
     rule: 'deny members of "foo"'
+    parameters:
+    - 'option captive "http://captive.portal/"'
   parameters:
   - filename "pxelinux.0"
 
 # Fixed lease configuration
 dhcpd_hosts:
 - name: local-server
-  mac_address: "00:11:22:33:44:55"
+  mac_address: 00:11:22:33:44:55
   fixed_address: 192.168.10.10
   default_lease_time: 43200
   max_lease_time: 86400
   parameters:
   - filename "pxelinux.0"
+
+# Group configuration
+dhcpd_groups:
+- name: foo
+  hosts:
+  - name: Bob
+    mac_address: 00:11:22:33:44:55
+  - name: Alice
+    mac_address: 00:11:22:33:44:66
 
 # Class configuration
 dhcpd_classes:
@@ -174,6 +186,13 @@ dhcpd_classes:
   options:
   - opt: 'opt66 "http://distrib.local/cisco.php?mac=$MAU&model=$PN"'
   - opt: 'time-offset 21600'
+- name: 'SubclassExample'
+  rule: 'match hardware'
+  subclass:
+  - name: 'Alice'
+    mac_address: '00:11:22:33:44:55'
+  - name: 'Bob'
+    mac_address: '00:11:22:33:44:66'
 
 # Shared network configurations
 dhcpd_shared_networks:
@@ -201,7 +220,6 @@ dhcpd_ifelse:
   else:
   - value: 'filename "pxeboot.0";'
   - value: 'filename "pxeboot.1";'
-
 ```
 
 Examples

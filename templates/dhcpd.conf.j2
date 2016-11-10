@@ -24,7 +24,15 @@
 {% endif %}
 
 {% if hostvars[inventory_hostname]['dhcpd_classes'] is defined %}
+{% for c in hostvars[inventory_hostname]['dhcpd_classes'] %}
 {% include 'dhcpd_class.j2' %}
+{% endfor %}
+{% endif %}
+
+{% if hostvars[inventory_hostname]['dhcpd_global_classes'] is defined and (hostvars[inventory_hostname]['dhcpd_use_global'] is defined and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
+{% for c in hostvars[inventory_hostname]['dhcpd_global_classes'] %}
+{% include 'dhcpd_class.j2' %}
+{% endfor %}
 {% endif %}
 
 {% if hostvars[inventory_hostname]['dhcpd_hosts'] is defined %}

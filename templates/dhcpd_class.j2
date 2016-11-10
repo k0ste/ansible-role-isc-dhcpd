@@ -1,4 +1,3 @@
-{% for c in hostvars[inventory_hostname]['dhcpd_classes'] %}
 {{ 'class ' + '\"' + c.name + '\" {' }}
 {{ '  ' + c.rule + ';' }}
 {% if c.options is defined %}
@@ -7,4 +6,9 @@
 {% endfor %}
 {% endif %}
 {{ '}' }}
+{% if c.subclass is defined %}
+{% for sc in c.subclass %}
+{{ 'subclass ' + '\"' + c.name + '\"' + ' 1:' + sc.mac_address + ' {' }}
+{{ '}' }}
 {% endfor %}
+{% endif %}
