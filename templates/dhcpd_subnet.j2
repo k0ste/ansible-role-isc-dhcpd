@@ -1,32 +1,5 @@
 {% if s.base is defined and s.base | ipaddr() %}
-{{ 'subnet ' + s.base | ipaddr('network') + ' netmask ' + s.base | ipaddr('netmask') + ' {' }}
-{% if s.interface is defined and s.interface != '' %}
-{{ '  interface ' + '\"' + s.interface + '\";' }}
-{% endif %}
-{% if (s.range_start is defined and s.range_start | ipaddr()) and (s.range_end is defined and s.range_end | ipaddr()) %}
-{{ '  range ' + s.range_start + ' ' + s.range_end + ';' }}
-{% endif %}
-{% if s.routers is defined and s.routers != '' %}
-{{ '  option routers ' + s.routers + ';' }}
-{% endif %}
-{% if s.broadcast_address is defined and s.broadcast_address | ipaddr() %}
-{{ '  option broadcast-address ' + s.broadcast_address + ';' }}
-{% endif %}
-{% if s.domain_nameservers is defined and s.domain_nameservers != '' %}
-{{ '  option domain-name-servers ' + s.domain_nameservers + ';' }}
-{% endif %}
-{% if s.domain_name is defined and s.domain_name != '' %}
-{{ '  option domain-name ' + '\"' + s.domain_name + '\";' }}
-{% endif %}
-{% if s.ntp_servers is defined and s.ntp_servers != '' %}
-{{ '  option ntp-servers ' + s.ntp_servers + ';' }}
-{% endif %}
-{% if s.default_lease_time is defined and s.default_lease_time != '' %}
-{{ '  default-lease-time ' + s.default_lease_time | string + ';' }}
-{% endif %}
-{% if s.max_lease_time is defined and s.max_lease_time != '' %}
-{{ '  max-lease-time ' + s.max_lease_time | string + ';' }}
-{% endif %}
+{% include 'dhcpd_subnets.j2' %}
 {% if s.pools is defined %}
 {% for p in s.pools %}
 {% include 'dhcpd_pool.j2' %}
