@@ -1,4 +1,3 @@
-{% for h in hostvars[inventory_hostname]['dhcpd_hosts'] %}
 {{ 'host ' + h.name + ' {' }}
 {{ '  hardware ethernet ' + h.mac_address | hwaddr() + ';' }}
 {% if hostvars[inventory_hostname]['dhcpd_ddns_manage'] is defined and hostvars[inventory_hostname]['dhcpd_ddns_manage'] == 'true' %}
@@ -31,4 +30,3 @@
 {% endfor %}
 {% endif %}
 {{ '}' }}
-{% endfor %}

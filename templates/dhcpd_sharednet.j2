@@ -5,7 +5,7 @@
 {% endif %}
 {% for s in n.subnets %}
 {% if s.base is defined and s.base | ipaddr() %}
-{{ '  subnet ' + s.base | ipaddr('network') | string + ' netmask ' + s.base | ipaddr('netmask') | string + ' {' }}
+{{ '  subnet ' + s.base | ipaddr('network') + ' netmask ' + s.base | ipaddr('netmask') + ' {' }}
 {% if (s.range_start is defined and s.range_start | ipaddr()) and (s.range_end is defined and s.range_end | ipaddr()) %}
 {{ '    range ' + s.range_start + ' ' + s.range_end + ';' }}
 {% endif %}
@@ -13,7 +13,7 @@
 {{ '    option routers ' + s.routers + ';' }}
 {% endif %}
 {% if s.broadcast_address is defined and s.broadcast_address | ipaddr() %}
-{{ '    option broadcast-address ' + s.broadcast_address | string + ';' }}
+{{ '    option broadcast-address ' + s.broadcast_address + ';' }}
 {% endif %}
 {% if s.domain_nameservers is defined and s.domain_nameservers != '' %}
 {{ '    option domain-name-servers ' + s.domain_nameservers + ';' }}

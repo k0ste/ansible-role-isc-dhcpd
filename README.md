@@ -37,8 +37,8 @@ Handlers
 ------------
 You can control handlers behavior via variables:
 
-* **dhcpd_dhcpd_enable**, *enable dhcpd after deploy*
-* **dhcpd_dhcpd_restart**, *restart dhcpd after deploy*
+* **dhcpd_service_enable**, *enable dhcpd after deploy*
+* **dhcpd_service_restart**, *restart dhcpd after deploy*
 * **dhcpd_apparmor_enable**, *enable apparmor after deploy*
 * **dhcpd_apparmor_restart**, *restart apparmor after deploy*
 
@@ -50,6 +50,20 @@ Global dhcpd_interfaces option does not work on systemd distros (ArchLinux,
 CentOS 7, Fedora), listen by default on interface with declared subnet. You
 can rewrite systemd service, but is dirty. Instead this, describe interfaces in
 configuration. Is modern and properly.
+
+Global hosts
+---------------
+The role have global hosts and subnets definition:
+
+```
+dhcpd_global_hosts
+dhcpd_global_subnets
+```
+
+And can be activated via `dhcpd_use_global: true`.
+
+It is meant to define in `group_vars`, for example it can be management vlan,
+or employees with laptops (traveling work) - new day in another office.
 
 Extra
 --------
@@ -75,8 +89,8 @@ dhcpd_apparmor_enable: true|false
 dhcpd_apparmor_restart: true|false
 dhcpd_ddns_manage: true|false
 dhcpd_install_package: true|false
-dhcpd_dhcpd_enable: true|false
-dhcpd_dhcpd_restart: true|false
+dhcpd_service_enable: true|false
+dhcpd_service_restart: true|false
 
 # Basic configuration information
 dhcpd_use_ansible_managed: 'true'

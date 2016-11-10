@@ -13,9 +13,9 @@
   service:
     name: "{{ hostvars[inventory_hostname]['dhcpd_dhcpd_service'] }}"
     enabled: "yes"
-  when: "dhcpd_deploy_result|success and hostvars[inventory_hostname]['dhcpd_dhcpd_enable'] == 'true'"
+  when: "dhcpd_deploy_result|success and hostvars[inventory_hostname]['dhcpd_service_enable'] == 'true'"
 - name: Restart dhcpd
   service:
     name: "{{ hostvars[inventory_hostname]['dhcpd_dhcpd_service'] }}"
     state: "restarted"
-  when: "dhcpd_deploy_result|success and hostvars[inventory_hostname]['dhcpd_dhcpd_restart'] == 'true'"
+  when: "dhcpd_deploy_result|success and hostvars[inventory_hostname]['dhcpd_service_restart'] == 'true'"
