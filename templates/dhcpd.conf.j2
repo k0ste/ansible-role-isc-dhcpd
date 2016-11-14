@@ -52,5 +52,7 @@
 {% endfor %}
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_shared_networks'] is defined %}
+{% for n in hostvars[inventory_hostname]['dhcpd_shared_networks'] %}
 {% include 'dhcpd_sharednet.j2' %}
+{% endfor %}
 {% endif %}

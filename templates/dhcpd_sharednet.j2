@@ -1,4 +1,3 @@
-{% for n in hostvars[inventory_hostname]['dhcpd_shared_networks'] %}
 {{ 'shared-network ' + n.name + ' {' }}
 {% if n.interface is defined and n.interface != '' %}
 {{ '  interface ' + '\"' + n.interface + '\";' }}
@@ -29,5 +28,4 @@
 {{ '  ' + p + ';' }}
 {% endfor %}
 {% endif %}
-{% endfor %}
-{{ '}' }}
+{{ '}\n' }}
