@@ -3,8 +3,7 @@
 {% if g.hosts is defined %}
 {% for h in g.hosts %}
 {{ '  ' }}{% include 'dhcpd_host.j2' %}
-
 {% endfor %}
 {% endif %}
 {% endfor %}
-{{ '}' }}
+{{ '}\n' }}

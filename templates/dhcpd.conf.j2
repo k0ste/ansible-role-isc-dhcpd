@@ -15,50 +15,42 @@
 {% if hostvars[inventory_hostname]['dhcpd_ddns_manage'] is defined and hostvars[inventory_hostname]['dhcpd_ddns_manage'] == 'true' %}
 {% include 'dhcpd_ddns.j2' %}
 {% endif %}
-
 {% if hostvars[inventory_hostname]['dhcpd_ifelse'] is defined %}
 {% include 'dhcpd_ifelse.j2' %}
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_groups'] is defined %}
 {% include 'dhcpd_group.j2' %}
 {% endif %}
-
 {% if hostvars[inventory_hostname]['dhcpd_classes'] is defined %}
 {% for c in hostvars[inventory_hostname]['dhcpd_classes'] %}
 {% include 'dhcpd_class.j2' %}
 {% endfor %}
 {% endif %}
-
 {% if hostvars[inventory_hostname]['dhcpd_global_classes'] is defined and (hostvars[inventory_hostname]['dhcpd_use_global'] is defined and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
 {% for c in hostvars[inventory_hostname]['dhcpd_global_classes'] %}
 {% include 'dhcpd_class.j2' %}
 {% endfor %}
 {% endif %}
-
 {% if hostvars[inventory_hostname]['dhcpd_hosts'] is defined %}
 {% for h in hostvars[inventory_hostname]['dhcpd_hosts'] %}
 {% include 'dhcpd_host.j2' %}
 {% endfor %}
 {% endif %}
-
 {% if hostvars[inventory_hostname]['dhcpd_global_hosts'] is defined and (hostvars[inventory_hostname]['dhcpd_use_global'] is defined and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
 {% for h in hostvars[inventory_hostname]['dhcpd_global_hosts'] %}
 {% include 'dhcpd_host.j2' %}
 {% endfor %}
 {% endif %}
-
 {% if hostvars[inventory_hostname]['dhcpd_subnets'] is defined %}
 {% for s in hostvars[inventory_hostname]['dhcpd_subnets'] %}
 {% include 'dhcpd_subnet.j2' %}
 {% endfor %}
 {% endif %}
-
 {% if hostvars[inventory_hostname]['dhcpd_global_subnets'] is defined and (hostvars[inventory_hostname]['dhcpd_use_global'] is defined and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
 {% for s in hostvars[inventory_hostname]['dhcpd_global_subnets'] %}
 {% include 'dhcpd_subnet.j2' %}
 {% endfor %}
 {% endif %}
-
 {% if hostvars[inventory_hostname]['dhcpd_shared_networks'] is defined %}
 {% include 'dhcpd_sharednet.j2' %}
 {% endif %}
