@@ -18,6 +18,9 @@
 {% if h.domain_name is defined and h.domain_name != '' %}
 {{ '  option domain-name ' + '\"' + h.domain_name + '\";' }}
 {% endif %}
+{% if h.host_name is defined and h.host_name != '' %}
+{{ '  option host-name ' + '\"' + h.host_name + '\";' }}
+{% endif %}
 {% if h.default_lease_time is defined and h.default_lease_time != '' %}
 {{ '  default-lease-time ' + h.default_lease_time | string + ';' }}
 {% endif %}
