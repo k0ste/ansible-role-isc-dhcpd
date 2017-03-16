@@ -213,6 +213,12 @@ dhcpd_hosts:
 - name: 'host2'
   mac_address: 'dc:9f:db:1a:1a:05'
   fixed_address: '192.168.1.3'
+## Static host with hostname and domain name:
+- name: 'host3'
+  mac_address: 'dc:9f:db:1a:1b:1c'
+  fixed_address: '192.168.1.4'
+  host_name: 'testhost'
+  domain_name: 'testdomain.com'
 ## Static VoIP, for class matching
 - name: 'voip1'
   mac_address: 'dc:9f:db:1a:4d:c8'
