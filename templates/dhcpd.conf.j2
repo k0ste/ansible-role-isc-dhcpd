@@ -43,12 +43,42 @@
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_subnets'] is defined %}
 {% for s in hostvars[inventory_hostname]['dhcpd_subnets'] %}
-{% include 'dhcpd_subnet.j2' %}
+{# start_subnet, patch for jinja 2.9 #}
+{% if s.base is defined and s.base | ipaddr('net') %}
+{% include 'dhcpd_subnets.j2' %}
+{% if s.pools is defined %}
+{% for p in s.pools %}
+{% include 'dhcpd_pool.j2' %}
+{% endfor %}
+{% endif %}
+{% if s.parameters is defined %}
+{% for p in s.parameters %}
+{{ '  ' + p + ';' }}
+{% endfor %}
+{% endif %}
+{{ '}' }}
+{% endif %}
+{# end_subnet #}
 {% endfor %}
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_global_subnets'] is defined and (hostvars[inventory_hostname]['dhcpd_use_global'] is defined and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
 {% for s in hostvars[inventory_hostname]['dhcpd_global_subnets'] %}
-{% include 'dhcpd_subnet.j2' %}
+{# start_subnet, patch for jinja 2.9 #}
+{% if s.base is defined and s.base | ipaddr('net') %}
+{% include 'dhcpd_subnets.j2' %}
+{% if s.pools is defined %}
+{% for p in s.pools %}
+{% include 'dhcpd_pool.j2' %}
+{% endfor %}
+{% endif %}
+{% if s.parameters is defined %}
+{% for p in s.parameters %}
+{{ '  ' + p + ';' }}
+{% endfor %}
+{% endif %}
+{{ '}' }}
+{% endif %}
+{# end_subnet #}
 {% endfor %}
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_shared_networks'] is defined %}
