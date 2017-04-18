@@ -9,17 +9,17 @@
 
 {% include 'dhcpd_omapi.j2' %}
 {% include 'dhcpd_common.j2' %}
-{% include 'dhcpd_parameters.j2' %}
-{% include 'dhcpd_options.j2' %}
+{% if hostvars[inventory_hostname]['dhcpd_common_options'] is defined %}
+{% for o in hostvars[inventory_hostname]['dhcpd_common_options'] %}
+{{ 'option ' + o.name | string + ' code ' + o.code | string + ' = ' + o.type + ';' }}
+{% endfor %}
+{% endif %}
 {% include 'dhcpd_pxe.j2' %}
 {% if hostvars[inventory_hostname]['dhcpd_ddns_manage'] is defined and hostvars[inventory_hostname]['dhcpd_ddns_manage'] == 'true' %}
 {% include 'dhcpd_ddns.j2' %}
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_ifelse'] is defined %}
 {% include 'dhcpd_ifelse.j2' %}
-{% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_groups'] is defined %}
-{% include 'dhcpd_group.j2' %}
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_classes'] is defined %}
 {% for c in hostvars[inventory_hostname]['dhcpd_classes'] %}
@@ -31,14 +31,21 @@
 {% include 'dhcpd_class.j2' %}
 {% endfor %}
 {% endif %}
+{% if hostvars[inventory_hostname]['dhcpd_groups'] is defined %}
+{% for g in hostvars[inventory_hostname]['dhcpd_groups'] %}
+{% include 'dhcpd_group.j2' %}
+{% endfor %}
+{% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_hosts'] is defined %}
 {% for h in hostvars[inventory_hostname]['dhcpd_hosts'] %}
 {% include 'dhcpd_host.j2' %}
+{{ '}' }}
 {% endfor %}
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_global_hosts'] is defined and (hostvars[inventory_hostname]['dhcpd_use_global'] is defined and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
 {% for h in hostvars[inventory_hostname]['dhcpd_global_hosts'] %}
 {% include 'dhcpd_host.j2' %}
+{{ '}' }}
 {% endfor %}
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_subnets'] is defined %}

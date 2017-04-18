@@ -1,8 +1,8 @@
 {{ 'class ' + '\"' + c.name + '\" {' }}
 {{ '  ' + c.rule + ';' }}
-{% if c.options is defined %}
-{% for i in c.options %}
-{{ '  option ' + i.opt + ';' }}
+{% if c.options is defined and c.options != '' %}
+{% for o in c.options %}
+{{ '  ' }}{% include 'dhcpd_options.j2' %}
 {% endfor %}
 {% endif %}
 {{ '}' }}

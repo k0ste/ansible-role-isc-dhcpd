@@ -4,10 +4,13 @@
 {{ '    ' + p.rule + ';' }}
 {% endif %}
 {{ '    range ' + p.range_start + ' ' + p.range_end + ';' }}
-{% if p.parameters is defined %}
-{% for pr in p.parameters %}
-{{ '    ' + pr + ';' }}
+{% if p.options is defined and p.options != '' %}
+{% for o in p.options %}
+{{ '    ' }}{% include 'dhcpd_options.j2' %}
 {% endfor %}
+{% endif %}
+{% if p.filename is defined and p.filename != '' %}
+{{ '    ' + 'filename \"' + p.filename + '\";' }}
 {% endif %}
 {{ '  }' }}
 {% endif %}

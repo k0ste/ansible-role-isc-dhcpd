@@ -1,5 +1,0 @@
-{% if hostvars[inventory_hostname]['dhcpd_common_parameters'] is defined %}
-{% for p in hostvars[inventory_hostname]['dhcpd_common_parameters'] %}
-{{ p + ';' }}
-{% endfor %}
-{% endif %}

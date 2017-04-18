@@ -10,9 +10,9 @@
 {% include 'dhcpd_pool.j2' %}
 {% endfor %}
 {% endif %}
-{% if s.parameters is defined %}
-{% for p in s.parameters %}
-{{ '  ' + p + ';' }}
+{% if s.options is defined and s.options != '' %}
+{% for o in s.options %}
+{{ '  ' }}{% include 'dhcpd_options.j2' %}
 {% endfor %}
 {% endif %}
 {% endif %}
@@ -23,9 +23,9 @@
 {% include 'dhcpd_pool.j2' %}
 {% endfor %}
 {% endif %}
-{% if n.parameters is defined %}
-{% for p in n.parameters %}
-{{ '  ' + p + ';' }}
+{% if n.options is defined and n.options != '' %}
+{% for o in n.options %}
+{{ '  ' }}{% include 'dhcpd_options.j2' %}
 {% endfor %}
 {% endif %}
 {{ '}\n' }}

@@ -1,18 +1,13 @@
-dhcp_server
-===============
+isc_dhcpd
+============
 
-This role installs and configures a DHCP server.
-
-Ansible versions
---------------------
-
-Role is adapted for Ansible 2.0, should work on 1.9.
+This role installs and configures ISC dhcpd.
 
 Requirements for usage
------------------------------------
+------------------------
 
-* [python-netaddr](//docs.ansible.com/ansible/playbooks_filters_ipaddr.html)
-library (on machine with Ansible).
+* Ansible 2.0;
+* [python-netaddr](//docs.ansible.com/ansible/playbooks_filters_ipaddr.html);
 
 Ubuntu AppArmor
 ------------------
@@ -23,22 +18,22 @@ This prevents Ansible from running the check command on the template. The check
 is used to validate the correctness of the config file generated.
 
 To prevent this, you can either disable AppArmor, manually configure it in such
-a way that it allows access to ```/root/.ansible/tmp``` for dhcpd or you can let
+a way that it allows access to `/root/.ansible/tmp` for dhcpd or you can let
 this role do that for you:
 
-If you specify the ```dhcpd_configure_apparmor: true``` variable for your host. This
-role will overwrite the ```/etc/apparmor.d/local/usr.bin.dhcpd``` file and
-specifically allow read-only access to ```/root/.ansible/tmp```. It will first check
+If you specify the `dhcpd_configure_apparmor: true` variable for your host. This
+role will overwrite the `/etc/apparmor.d/local/usr.bin.dhcpd` file and
+specifically allow read-only access to `/root/.ansible/tmp`. It will first check
 if this file exists, if it does not, it will not do anything.
 
 Package Installation
----------------------------
+----------------------
 
 If you don't need install package, just deploy (save your time), disable package
-installation by set variable ```dhcpd_install_package: false```.
+installation by set variable `dhcpd_install_package: false`.
 
 Handlers
-------------
+----------
 
 You can control handlers behavior via variables:
 
@@ -60,16 +55,16 @@ configuration. Is modern and properly.
 Global hosts, subnets and classess
 ---------------
 
-It is meant to define in ```group_vars```, for example it can be management vlan,
+It is meant to define in `group_vars`, for example it can be management vlan,
 or employees with laptops (traveling work) - new day in another office.
 
-```yaml
+```
 dhcpd_global_hosts
 dhcpd_global_subnets
 dhcpd_global_classes
 ```
 
-And can be activated via ```dhcpd_use_global: true```.
+And can be activated via `dhcpd_use_global: true`.
 The syntax is match to non global definition.
 
 Extra
@@ -85,7 +80,7 @@ itself - i.e. you can't broke your working configuration.
 Example configuration
 ------------------------
 
-This saved in ```group_vars/all/dhcp_server.yml``` for global access.
+This saved in `group_vars/all/dhcp_server.yml` for global access.
 
 
 ```yaml
@@ -105,14 +100,28 @@ dhcpd_common_default_lease_time: '86400'
 dhcpd_common_max_lease_time: '172800'
 dhcpd_common_authoritative: 'true'
 dhcpd_common_log_facility: 'local7'
+# https://www.iana.org/assignments/bootp-dhcp-parameters/bootp-dhcp-parameters.xhtml
 dhcpd_common_options:
-## For example, set TFTP server name (RFC2132) and Captive Portal (RFC7710)
+# TFTP Server Name (https://tools.ietf.org/html/rfc2132)
 - name: 'opt66'
   code: '66'
   type: 'string'
+# DHCP Captive-Portal (https://tools.ietf.org/html/rfc7710)
 - name: 'captive'
   code: '160'
   type: 'string'
+# PXE ConfigFile (https://tools.ietf.org/html/rfc5071)
+- name: 'configfile'
+  code: '209'
+  type: 'text'
+# PXE PathPrefix (https://tools.ietf.org/html/rfc5071)
+- name: 'pathprefix'
+  code: '210'
+  type: 'text'
+# PXE RebootTime (https://tools.ietf.org/html/rfc5071)
+- name: 'reboottime'
+  code: '211'
+  type: 'unsigned integer 32'
 
 dhcpd_global_classes:
 ## This saved in group_vars/all/dhcp_server.yaml
@@ -135,9 +144,9 @@ dhcpd_global_subnets:
   pools:
   - range_start: '198.18.1.2'
     range_end: '198.18.1.62'
-    parameters:
-    - 'option captive "http://captive.portal/"'
-
+    options: # options only for this pool
+    - key: 'captive'
+      value: '"http://captive.portal/"'
 ```
 
 Host configuration.
@@ -150,8 +159,10 @@ dhcpd_classes:
 - name: "CiscoSPA"
   rule: 'match if option vendor-class-identifier ~= "^(Cisco SPA)[0-9]+(G|)$"'
   options:
-  - opt: 'opt66 "http://example.com/cisco.php?mac=$MAU&model=$PN"'
-  - opt: 'time-offset 25200'
+  - key: 'opt66'
+    value: '"http://example.com/cisco.php?mac=$MAU&model=$PN"'
+  - key: 'time-offset'
+    value: '"25200"'
 
 dhcpd_subnets:
 ## This subnet allow only mac addresses of subclasses
@@ -199,6 +210,17 @@ dhcpd_shared_networks:
 dhcpd_groups:
 # Group of hosts
 - name: 'foo'
+  host_name_from_name: 'true' # this option allow to generate host-name option from host name definition, when host_name actually not defined
+  filename: '/arch/boot/syslinux/lpxelinux.0'
+  options: # dhcp options only for this group
+  - key: 'dhcp-parameter-request-list'
+    value: 'concat(option dhcp-parameter-request-list,d1,d2,d3)'
+  - key: 'configfile'
+    value: '"boot/syslinux/archiso.cfg"'
+  - key: 'pathprefix'
+    value: '"/arch/"'
+  - key: 'reboottime'
+    value: '10'
   hosts:
   - name: 'Bob'
     mac_address: '00:11:22:33:44:55'
@@ -226,5 +248,4 @@ dhcpd_hosts:
 - name: 'voip2'
   mac_address: 'dc:9f:db:1a:1a:06'
   fixed_address: '192.168.1.5'
-
 ```
