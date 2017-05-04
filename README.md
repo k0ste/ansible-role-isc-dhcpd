@@ -147,12 +147,7 @@ dhcpd_global_subnets:
     options: # options only for this pool
     - key: 'captive'
       value: '"http://captive.portal/"'
-```
 
-Host configuration.
-
-```yaml
----
 dhcpd_classes:
 ## If client request math with this regex - answer with TFTP address and
 ## time offset.
@@ -162,7 +157,7 @@ dhcpd_classes:
   - key: 'opt66'
     value: '"http://example.com/cisco.php?mac=$MAU&model=$PN"'
   - key: 'time-offset'
-    value: '"25200"'
+    value: '25200'
 
 dhcpd_subnets:
 ## This subnet allow only mac addresses of subclasses
@@ -215,12 +210,16 @@ dhcpd_groups:
   options: # dhcp options only for this group
   - key: 'dhcp-parameter-request-list'
     value: 'concat(option dhcp-parameter-request-list,d1,d2,d3)'
+    equal_sign: 'true' # add '=' char between key and value, false by default
   - key: 'configfile'
     value: '"boot/syslinux/archiso.cfg"'
+    equal_sign: 'true'
   - key: 'pathprefix'
     value: '"/arch/"'
+    equal_sign: 'true'
   - key: 'reboottime'
     value: '10'
+    equal_sign: 'true'
   hosts:
   - name: 'Bob'
     mac_address: '00:11:22:33:44:55'
