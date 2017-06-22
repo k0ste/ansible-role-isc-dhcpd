@@ -15,6 +15,9 @@
 {% if h.domain_nameservers is defined and h.domain_nameservers != '' %}
 {{ '  option domain-name-servers ' + h.domain_nameservers + ';' }}
 {% endif %}
+{% if h.get_lease_hostnames is defined and h.get_lease_hostnames in ['true', 'false'] %}
+{{ '  get-lease-hostnames ' + h.get_lease_hostnames + ';' }}
+{% endif %}
 {% if h.domain_name is defined and h.domain_name != '' %}
 {{ '  option domain-name ' + '\"' + h.domain_name + '\";' }}
 {% endif %}
