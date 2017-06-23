@@ -1,29 +1,11 @@
 ---
-- name: Add the OS specific variables
-  include_vars: "{{ hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
-- include: apparmor.yml
-  when: "hostvars[inventory_hostname]['dhcpd_install_package'] is defined and hostvars[inventory_hostname]['dhcpd_install_package'] == 'true'"
+- include: pre_requisite.yml
 - include: packages.yml
-  when: "hostvars[inventory_hostname]['dhcpd_configure_apparmor'] is defined and hostvars[inventory_hostname]['dhcpd_configure_apparmor'] == 'true'"
-- name: Generate DHCP service conf
-  template:
-    src: "{{ 'service_' + hostvars[inventory_hostname]['ansible_os_family'] + '.j2' }}"
-    dest: "{{ hostvars[inventory_hostname]['dhcpd_service_conf'] }}"
-    owner: "root"
-    group: "root"
-    mode: "0644"
-  when: "hostvars[inventory_hostname]['ansible_os_family'] == 'Debian' or (hostvars[inventory_hostname]['ansible_os_family'] == 'RedHat' and hostvars[inventory_hostname]['ansible_distribution_major_version'] < '7')"
-  notify:
-    - 'Enable dhcpd'
-    - 'Restart dhcpd'
-- name: Generate dhcpd.conf
-  template:
-    src: "dhcpd.conf.j2"
-    dest: "{{ hostvars[inventory_hostname]['dhcpd_conf_dest'] + '/' + hostvars[inventory_hostname]['dhcpd_dhcpd_conf'] }}"
-    owner: "root"
-    group: "root"
-    mode: "0644"
-    validate: "dhcpd -t -cf %s"
-  register: "dhcpd_deploy_result"
-  notify:
-    - 'Restart dhcpd'
+  when:
+  - "hostvars[inventory_hostname]['dhcpd_install_package'] is defined"
+  - "hostvars[inventory_hostname]['dhcpd_install_package'] == 'true'"
+- include: apparmor.yml
+  when:
+  - "hostvars[inventory_hostname]['dhcpd_configure_apparmor'] is defined"
+  - "hostvars[inventory_hostname]['dhcpd_configure_apparmor'] == 'true'"
+- include: deploy_dhcpd.yml

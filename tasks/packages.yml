@@ -1,18 +1,21 @@
 ---
-- name: Install the required  packages in Redhat derivatives
+- name: dhcpd | Install the required packages in Redhat derivatives
   yum:
     name: "{{ hostvars[inventory_hostname]['dhcpd_server_package'] }}"
     state: "installed"
-  when: "hostvars[inventory_hostname]['ansible_os_family'] == 'RedHat'"
-- name: Install the required packages in Debian derivatives
+  when:
+  - "hostvars[inventory_hostname]['ansible_os_family'] == 'RedHat'"
+- name: dhcpd | Install the required packages in Debian derivatives
   apt:
     name: "{{ hostvars[inventory_hostname]['dhcpd_server_package'] }}"
     state: "installed"
     update_cache: "yes"
-  when: "hostvars[inventory_hostname]['ansible_os_family'] == 'Debian'"
-- name: Install the required packages in ArchLinux derivatives
+  when:
+  - "hostvars[inventory_hostname]['ansible_os_family'] == 'Debian'"
+- name: dhcpd | Install the required packages in ArchLinux derivatives
   pacman:
     name: "{{ hostvars[inventory_hostname]['dhcpd_server_package'] }}"
     state: "installed"
     update_cache: "yes"
-  when: "hostvars[inventory_hostname]['ansible_os_family'] == 'Archlinux'"
+  when:
+  - "hostvars[inventory_hostname]['ansible_os_family'] == 'Archlinux'"

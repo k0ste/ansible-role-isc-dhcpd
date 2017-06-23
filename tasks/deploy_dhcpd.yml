@@ -1,0 +1,11 @@
+---
+- name: dhcpd | Generate dhcpd.conf
+  template:
+    src: "dhcpd.conf.j2"
+    dest: "{{ hostvars[inventory_hostname]['dhcpd_conf_dest'] + '/' + hostvars[inventory_hostname]['dhcpd_dhcpd_conf'] }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+    validate: "dhcpd -t -cf %s"
+  register: "dhcpd_deploy_result"
+  notify: "Restart dhcpd"

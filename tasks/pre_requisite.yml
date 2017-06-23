@@ -1,0 +1,15 @@
+---
+- name: dhcpd | Add the OS specific variables
+  include_vars: "{{ hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
+- name: dhcpd | Generate DHCP service conf
+  template:
+    src: "{{ 'service_' + hostvars[inventory_hostname]['ansible_os_family'] + '.j2' }}"
+    dest: "{{ hostvars[inventory_hostname]['dhcpd_service_conf'] }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  when:
+  - "hostvars[inventory_hostname]['ansible_os_family'] == 'Debian' or (hostvars[inventory_hostname]['ansible_os_family'] == 'RedHat' and hostvars[inventory_hostname]['ansible_distribution_major_version'] < '7')"
+  notify:
+  - "Enable dhcpd"
+  - "Restart dhcpd"
