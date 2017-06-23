@@ -7,25 +7,19 @@ galaxy_info:
   platforms:
    - name: EL
      versions:
-      - 5
-      - 6
-      - 7
+     - 5
+     - 6
+     - 7
    - name: Fedora
      versions:
-      - 16
-      - 17
-      - 18
+     - all
    - name: Ubuntu
      versions:
-      - precise
-      - quantal
-      - raring
-      - saucy
-      - trusty
+     - all
    - name: Archlinux
      versions:
-       - all
+     - all
   categories:
-   - system
-   - networking
+  - system
+  - networking
 dependencies: []
