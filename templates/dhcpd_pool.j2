@@ -1,4 +1,5 @@
-{% if (p.range_start is defined and p.range_start | ipaddr()) and (p.range_end is defined and p.range_end | ipaddr()) %}
+{% if (p.range_start is defined and p.range_start | ipaddr()) and
+      (p.range_end is defined and p.range_end | ipaddr()) %}
 {{ '  pool {' }}
 {% if p.rule is defined and p.rule != '' %}
 {{ '    ' + p.rule + ';' }}

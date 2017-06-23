@@ -14,7 +14,7 @@
 {% for h in g.hosts %}
 {% include 'dhcpd_host.j2' %}
 {% if g.host_name_from_name is defined and g.host_name_from_name == 'true' %}
-{{ '  option host-name ' + '\"' + h.name | string + '\";' }}
+{{ '  option host-name ' ~ '\"' ~ h.name ~ '\";' }}
 {% endif %}
 {{ '}' }}
 {% endfor %}

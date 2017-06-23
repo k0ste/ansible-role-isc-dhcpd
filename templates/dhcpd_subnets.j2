@@ -2,7 +2,8 @@
 {% if s.interface is defined and s.interface != '' %}
 {{ '  interface ' + '\"' + s.interface + '\";' }}
 {% endif %}
-{% if (s.range_start is defined and s.range_start | ipaddr()) and (s.range_end is defined and s.range_end | ipaddr()) %}
+{% if (s.range_start is defined and s.range_start | ipaddr())
+   and (s.range_end is defined and s.range_end | ipaddr()) %}
 {{ '  range ' + s.range_start + ' ' + s.range_end + ';' }}
 {% endif %}
 {% if s.routers is defined and s.routers != '' %}

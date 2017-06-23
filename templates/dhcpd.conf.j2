@@ -1,8 +1,10 @@
 {{ '## ' + hostvars[inventory_hostname]['dhcpd_dhcpd_conf'] }}
-{% if hostvars[inventory_hostname]['dhcpd_use_ansible_managed'] is defined and hostvars[inventory_hostname]['dhcpd_use_ansible_managed'] == 'true' %}
+{% if hostvars[inventory_hostname]['dhcpd_use_ansible_managed'] is defined
+   and hostvars[inventory_hostname]['dhcpd_use_ansible_managed'] == 'true' %}
 {{ '# ' + ansible_managed }}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_add_deployed_timestamp'] is defined and hostvars[inventory_hostname]['dhcpd_add_deployed_timestamp'] == 'true' %}
+{% if hostvars[inventory_hostname]['dhcpd_add_deployed_timestamp'] is defined
+   and hostvars[inventory_hostname]['dhcpd_add_deployed_timestamp'] == 'true' %}
 {{ '# Deployed at ' + ansible_date_time.date + ' ' + ansible_date_time.time }}
 {% endif %}
 {{ '# ' + 'Do not edit manually' }}
@@ -15,7 +17,8 @@
 {% endfor %}
 {% endif %}
 {% include 'dhcpd_pxe.j2' %}
-{% if hostvars[inventory_hostname]['dhcpd_ddns_manage'] is defined and hostvars[inventory_hostname]['dhcpd_ddns_manage'] == 'true' %}
+{% if hostvars[inventory_hostname]['dhcpd_ddns_manage'] is defined
+   and hostvars[inventory_hostname]['dhcpd_ddns_manage'] == 'true' %}
 {% include 'dhcpd_ddns.j2' %}
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_ifelse'] is defined %}
@@ -26,7 +29,9 @@
 {% include 'dhcpd_class.j2' %}
 {% endfor %}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_global_classes'] is defined and (hostvars[inventory_hostname]['dhcpd_use_global'] is defined and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
+{% if hostvars[inventory_hostname]['dhcpd_global_classes'] is defined
+   and (hostvars[inventory_hostname]['dhcpd_use_global'] is defined
+   and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
 {% for c in hostvars[inventory_hostname]['dhcpd_global_classes'] %}
 {% include 'dhcpd_class.j2' %}
 {% endfor %}
@@ -42,7 +47,9 @@
 {{ '}' }}
 {% endfor %}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_global_hosts'] is defined and (hostvars[inventory_hostname]['dhcpd_use_global'] is defined and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
+{% if hostvars[inventory_hostname]['dhcpd_global_hosts'] is defined
+   and (hostvars[inventory_hostname]['dhcpd_use_global'] is defined
+   and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
 {% for h in hostvars[inventory_hostname]['dhcpd_global_hosts'] %}
 {% include 'dhcpd_host.j2' %}
 {{ '}' }}
@@ -68,7 +75,9 @@
 {# end_subnet #}
 {% endfor %}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_global_subnets'] is defined and (hostvars[inventory_hostname]['dhcpd_use_global'] is defined and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
+{% if hostvars[inventory_hostname]['dhcpd_global_subnets'] is defined
+   and (hostvars[inventory_hostname]['dhcpd_use_global'] is defined
+   and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
 {% for s in hostvars[inventory_hostname]['dhcpd_global_subnets'] %}
 {# start_subnet, patch for jinja 2.9 #}
 {% if s.base is defined and s.base | ipaddr('net') %}
