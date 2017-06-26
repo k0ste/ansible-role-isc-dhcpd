@@ -10,6 +10,9 @@
 {% if g.filename is defined and g.filename != '' %}
 {{ '  ' + 'filename \"' + g.filename + '\";' }}
 {% endif %}
+{% if g.get_lease_hostnames is defined and g.get_lease_hostnames in ['true', 'false'] %}
+{{ '  get-lease-hostnames ' + g.get_lease_hostnames + ';' }}
+{% endif %}
 {% if g.hosts is defined %}
 {% for h in g.hosts %}
 {% include 'dhcpd_host.j2' %}

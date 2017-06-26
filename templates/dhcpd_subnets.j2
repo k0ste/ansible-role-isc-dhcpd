@@ -30,3 +30,6 @@
 {% if s.unknown_clients is defined and s.unknown_clients in ['allow', 'deny', 'ignore'] %}
 {{ '  ' + s.unknown_clients + ' unknown-clients;' }}
 {% endif %}
+{% if s.get_lease_hostnames is defined and s.get_lease_hostnames in ['true', 'false'] %}
+{{ '  get-lease-hostnames ' + s.get_lease_hostnames + ';' }}
+{% endif %}

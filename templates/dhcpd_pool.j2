@@ -13,5 +13,8 @@
 {% if p.filename is defined and p.filename != '' %}
 {{ '    ' + 'filename \"' + p.filename + '\";' }}
 {% endif %}
+{% if p.get_lease_hostnames is defined and p.get_lease_hostnames in ['true', 'false'] %}
+{{ '    get-lease-hostnames ' + p.get_lease_hostnames + ';' }}
+{% endif %}
 {{ '  }' }}
 {% endif %}

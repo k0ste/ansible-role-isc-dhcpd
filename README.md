@@ -174,6 +174,7 @@ dhcpd_subnets:
     rule: 'allow members of "Everywhere"'
 ## Usual subnet. Allow only static clients (declared in dhcpd_hosts or
 ## dhcpd_global_hosts). If host matched with class - special options are offered.
+## Resolve hostnames from DNS.
 - base: '192.168.1.0/24'
   interface: 'vlan200'
   routers: '192.168.1.1'
@@ -181,6 +182,7 @@ dhcpd_subnets:
   domain_name: 'example.com'
   ntp_servers: '192.168.1.1'
   unknown_clients: 'deny'
+  get_lease_hostnames: 'true'
   pools:
   - range_start: '192.168.1.1'
     range_end: '192.168.1.1'
