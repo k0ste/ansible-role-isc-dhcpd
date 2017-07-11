@@ -138,9 +138,12 @@ dhcpd_global_subnets:
 - base: '198.18.1.0/26'
   interface: 'vlan666'
   routers: '198.18.1.1'
-  domain_nameservers: '8.8.8.8'
+  domain_nameservers:
+  - '8.8.8.8'
   domain_name: 'example.com'
-  ntp_servers: 'ru.pool.ntp.org'
+  ntp_servers:
+  - '0.ru.pool.ntp.org'
+  - '1.ru.pool.ntp.org'
   pools:
   - range_start: '198.18.1.2'
     range_end: '198.18.1.62'
@@ -165,9 +168,11 @@ dhcpd_subnets:
 - base: '198.19.1.0/26'
   interface: 'vlan100'
   routers: '198.19.1.1'
-  domain_nameservers: '198.19.1.1'
+  domain_nameservers:
+  - '198.19.1.1'
   domain_name: 'example.com'
-  ntp_servers: '198.19.1.1'
+  ntp_servers:
+  - '198.19.1.1'
   pools:
   - range_start: '198.19.1.2'
     range_end: '198.19.1.60'
@@ -178,9 +183,11 @@ dhcpd_subnets:
 - base: '192.168.1.0/24'
   interface: 'vlan200'
   routers: '192.168.1.1'
-  domain_nameservers: '192.168.1.1'
+  domain_nameservers:
+  - '192.168.1.1'
   domain_name: 'example.com'
-  ntp_servers: '192.168.1.1'
+  ntp_servers:
+  - '192.168.1.1'
   unknown_clients: 'deny'
   get_lease_hostnames: 'true'
   pools:
@@ -195,14 +202,20 @@ dhcpd_shared_networks:
   subnets:
   - base: '172.16.201.0/26'
     routers: '172.16.201.1'
-    domain_nameservers: '172.16.201.1'
+    domain_nameservers:
+    - '172.16.201.1'
     domain_name: 'example.com'
-    ntp_servers: 'ru.pool.ntp.org'
+    ntp_servers:
+    - '0.ru.pool.ntp.org'
+    - '1.ru.pool.ntp.org'
   - base: '172.16.202.0/26'
     routers: '172.16.202.1'
-    domain_nameservers: '172.16.202.1'
+    domain_nameservers:
+    - '172.16.202.1'
     domain_name: 'example.com'
-    ntp_servers: 'ru.pool.ntp.org'
+    ntp_servers:
+    - '0.ru.pool.ntp.org'
+    - '1.ru.pool.ntp.org'
 
 dhcpd_groups:
 # Group of hosts

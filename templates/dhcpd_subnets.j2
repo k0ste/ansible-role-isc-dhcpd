@@ -13,13 +13,13 @@
 {{ '  option broadcast-address ' + s.broadcast_address + ';' }}
 {% endif %}
 {% if s.domain_nameservers is defined and s.domain_nameservers != '' %}
-{{ '  option domain-name-servers ' + s.domain_nameservers + ';' }}
+{{ '  option domain-name-servers ' + s.domain_nameservers | join(', ') + ';' }}
 {% endif %}
 {% if s.domain_name is defined and s.domain_name != '' %}
 {{ '  option domain-name ' + '\"' + s.domain_name + '\";' }}
 {% endif %}
 {% if s.ntp_servers is defined and s.ntp_servers != '' %}
-{{ '  option ntp-servers ' + s.ntp_servers + ';' }}
+{{ '  option ntp-servers ' + s.ntp_servers | join(', ') + ';' }}
 {% endif %}
 {% if s.default_lease_time is defined and s.default_lease_time != '' %}
 {{ '  default-lease-time ' + s.default_lease_time | string + ';' }}
