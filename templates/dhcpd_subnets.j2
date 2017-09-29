@@ -21,11 +21,14 @@
 {% if s.ntp_servers is defined and s.ntp_servers != '' %}
 {{ '  option ntp-servers ' + s.ntp_servers | join(', ') + ';' }}
 {% endif %}
+{% if s.interface_mtu is defined and s.interface_mtu != '' %}
+{{ '  option interface-mtu ' ~ s.interface_mtu ~ ';' }}
+{% endif %}
 {% if s.default_lease_time is defined and s.default_lease_time != '' %}
-{{ '  default-lease-time ' + s.default_lease_time | string + ';' }}
+{{ '  default-lease-time ' ~ s.default_lease_time ~ ';' }}
 {% endif %}
 {% if s.max_lease_time is defined and s.max_lease_time != '' %}
-{{ '  max-lease-time ' + s.max_lease_time | string + ';' }}
+{{ '  max-lease-time ' ~ s.max_lease_time ~ ';' }}
 {% endif %}
 {% if s.unknown_clients is defined and s.unknown_clients in ['allow', 'deny', 'ignore'] %}
 {{ '  ' + s.unknown_clients + ' unknown-clients;' }}

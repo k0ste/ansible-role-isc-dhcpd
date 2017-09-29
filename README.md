@@ -168,6 +168,7 @@ dhcpd_subnets:
 - base: '198.19.1.0/26'
   interface: 'vlan100'
   routers: '198.19.1.1'
+  interface_mtu: '9000'
   domain_nameservers:
   - '198.19.1.1'
   domain_name: 'example.com'
