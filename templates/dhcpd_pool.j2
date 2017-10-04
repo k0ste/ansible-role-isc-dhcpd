@@ -11,10 +11,13 @@
 {% endfor %}
 {% endif %}
 {% if p.filename is defined and p.filename != '' %}
-{{ '    ' + 'filename \"' + p.filename + '\";' }}
+{{ '    ' ~ 'filename' ~ ' \"' ~ p.filename ~ '\";' }}
+{% endif %}
+{% if p.next_server is defined and p.next_server != '' %}
+{{ '    ' ~ 'next-server' ~ ' ' ~ p.next_server ~ ';' }}
 {% endif %}
 {% if p.get_lease_hostnames is defined and p.get_lease_hostnames in ['true', 'false'] %}
-{{ '    get-lease-hostnames ' + p.get_lease_hostnames + ';' }}
+{{ '    ' + 'get-lease-hostnames' + ' ' + p.get_lease_hostnames + ';' }}
 {% endif %}
 {{ '  }' }}
 {% endif %}

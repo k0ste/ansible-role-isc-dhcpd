@@ -1,6 +1,6 @@
 {{ 'group {' }}
 {% if g.next_server is defined and g.next_server != '' %}
-{{ '  ' + 'next-server ' + g.next_server + ';' }}
+{{ '  ' ~ 'next-server' ~ ' ' ~ g.next_server ~ ';' }}
 {% endif %}
 {% if g.options is defined and g.options != '' %}
 {% for o in g.options %}
@@ -8,7 +8,7 @@
 {% endfor %}
 {% endif %}
 {% if g.filename is defined and g.filename != '' %}
-{{ '  ' + 'filename \"' + g.filename + '\";' }}
+{{ '  ' ~ 'filename' ~ ' \"' ~ g.filename ~ '\";' }}
 {% endif %}
 {% if g.get_lease_hostnames is defined and g.get_lease_hostnames in ['true', 'false'] %}
 {{ '  get-lease-hostnames ' + g.get_lease_hostnames + ';' }}

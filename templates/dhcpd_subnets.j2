@@ -1,6 +1,6 @@
 {{ 'subnet ' + s.base | ipaddr('network') + ' netmask ' + s.base | ipaddr('netmask') + ' {' }}
 {% if s.interface is defined and s.interface != '' %}
-{{ '  interface ' + '\"' + s.interface + '\";' }}
+{{ '  ' ~ 'interface' ~ ' \"' ~ s.interface ~ '\";' }}
 {% endif %}
 {% if (s.range_start is defined and s.range_start | ipaddr())
    and (s.range_end is defined and s.range_end | ipaddr()) %}
@@ -35,4 +35,10 @@
 {% endif %}
 {% if s.get_lease_hostnames is defined and s.get_lease_hostnames in ['true', 'false'] %}
 {{ '  get-lease-hostnames ' + s.get_lease_hostnames + ';' }}
+{% endif %}
+{% if s.filename is defined and s.filename != '' %}
+{{ '  ' ~ 'filename' ~ ' \"' ~ s.filename ~ '\";' }}
+{% endif %}
+{% if s.next_server is defined and s.next_server != '' %}
+{{ '  ' ~ 'next-server' ~ ' ' ~ s.next_server ~ ';' }}
 {% endif %}

@@ -124,8 +124,7 @@ dhcpd_common_options:
   type: 'unsigned integer 32'
 
 dhcpd_global_classes:
-## This saved in group_vars/all/dhcp_server.yaml
-## for global access
+# This saved in group_vars/all/dhcp_server.yaml for global access.
 - name: 'Everywhere'
   rule: 'match hardware'
   subclass:
@@ -139,9 +138,11 @@ dhcpd_global_subnets:
   interface: 'vlan666'
   routers: '198.18.1.1'
   domain_nameservers:
+# One or many DNS nameservers.
   - '8.8.8.8'
   domain_name: 'example.com'
   ntp_servers:
+# One or many NTP servers.
   - '0.ru.pool.ntp.org'
   - '1.ru.pool.ntp.org'
   pools:
@@ -152,8 +153,8 @@ dhcpd_global_subnets:
       value: '"http://captive.portal/"'
 
 dhcpd_classes:
-## If client request math with this regex - answer with TFTP address and
-## time offset.
+# If client request math with this regex - answer with TFTP address and time
+# offset.
 - name: "CiscoSPA"
   rule: 'match if option vendor-class-identifier ~= "^(Cisco SPA)[0-9]+(G|)$"'
   options:
@@ -163,8 +164,7 @@ dhcpd_classes:
     value: '25200'
 
 dhcpd_subnets:
-## This subnet allow only mac addresses of subclasses
-## of 'Everywhere' class
+# This subnet allow only mac addresses of subclasses of 'Everywhere' class.
 - base: '198.19.1.0/26'
   interface: 'vlan100'
   routers: '198.19.1.1'
@@ -221,8 +221,13 @@ dhcpd_shared_networks:
 dhcpd_groups:
 # Group of hosts
 - name: 'foo'
-  host_name_from_name: 'true' # this option allow to generate host-name option from host name definition, when host_name actually not defined
+# This option allow to generate host-name option from host name definition, when
+# host_name actually not defined.
+  host_name_from_name: 'true'
   filename: '/arch/boot/syslinux/lpxelinux.0'
+# The next_server statement specifies the IP address of the TFTP server from
+# which a client can download the boot loader file.
+  next_server: '10.10.10.10'
   options: # dhcp options only for this group
   - key: 'dhcp-parameter-request-list'
     value: 'concat(option dhcp-parameter-request-list,d1,d2,d3)'
@@ -243,20 +248,20 @@ dhcpd_groups:
     mac_address: '00:11:22:33:44:66'
 
 dhcpd_hosts:
-## Static hosts
+# Static hosts.
 - name: 'host1'
   mac_address: 'dc:9f:db:1a:4d:c7'
   fixed_address: '192.168.1.2'
 - name: 'host2'
   mac_address: 'dc:9f:db:1a:1a:05'
   fixed_address: '192.168.1.3'
-## Static host with hostname and domain name:
+# Static host with hostname and domain name.
 - name: 'host3'
   mac_address: 'dc:9f:db:1a:1b:1c'
   fixed_address: '192.168.1.4'
   host_name: 'testhost'
   domain_name: 'testdomain.com'
-## Static VoIP, for class matching
+# Static VoIP, for class matching.
 - name: 'voip1'
   mac_address: 'dc:9f:db:1a:4d:c8'
   fixed_address: '192.168.1.4'
