@@ -1,11 +1,20 @@
 ---
-- name: dhcpd | Generate dhcpd.conf
+- name: dhcpd | Deploy dhcpd.conf
   template:
     src: "dhcpd.conf.j2"
-    dest: "{{ hostvars[inventory_hostname]['dhcpd_conf_dest'] + '/' + hostvars[inventory_hostname]['dhcpd_dhcpd_conf'] }}"
+    dest: "{{ hostvars[inventory_hostname]['dhcpd_conf_dest'] + '/' +
+              hostvars[inventory_hostname]['dhcpd_dhcpd_conf'] }}"
     owner: "root"
     group: "root"
     mode: "0644"
     validate: "dhcpd -t -cf %s"
   register: "dhcpd_deploy_result"
   notify: "Restart dhcpd"
+- name: dhcpd | Enable dhcpd
+  service:
+    name: "{{ hostvars[inventory_hostname]['dhcpd_dhcpd_service'] }}"
+    state: "started"
+    enabled: "yes"
+  when:
+  - "hostvars[inventory_hostname]['dhcpd_service_enable'] is defined"
+  - "hostvars[inventory_hostname]['dhcpd_service_enable'] == 'true'"

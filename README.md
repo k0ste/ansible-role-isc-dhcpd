@@ -1,16 +1,13 @@
-isc_dhcpd
-============
+# isc_dhcpd
 
 This role installs and configures ISC dhcpd.
 
-Requirements for usage
-------------------------
+## Requirements for usage
 
-* Ansible 2.0;
+* Ansible 2.4;
 * [python-netaddr](//docs.ansible.com/ansible/playbooks_filters_ipaddr.html);
 
-Ubuntu AppArmor
-------------------
+#### Ubuntu AppArmor
 
 Since Ubuntu 14.04, AppArmor is configured to not allow dhcpd to access files
 outside a certain list of paths.
@@ -26,34 +23,30 @@ role will overwrite the `/etc/apparmor.d/local/usr.bin.dhcpd` file and
 specifically allow read-only access to `/root/.ansible/tmp`. It will first check
 if this file exists, if it does not, it will not do anything.
 
-Package Installation
-----------------------
+#### Package Installation
 
 If you don't need install package, just deploy (save your time), disable package
 installation by set variable `dhcpd_install_package: false`.
 
-Handlers
-----------
+#### Handlers
 
 You can control handlers behavior via variables:
 
-* **dhcpd_service_enable**, *enable dhcpd after deploy*
-* **dhcpd_service_restart**, *restart dhcpd after deploy*
-* **dhcpd_apparmor_enable**, *enable apparmor after deploy*
-* **dhcpd_apparmor_restart**, *restart apparmor after deploy*
+* `dhcpd_service_enable` - enable dhcpd after deploy
+* `dhcpd_service_restart` - restart dhcpd after deploy
+* `dhcpd_apparmor_enable` - enable apparmor after deploy
+* `dhcpd_apparmor_restart` - restart apparmor after deploy
 
-Difference between global and subnet interface options
------------------------------------------------------------
+#### Difference between global and subnet interface options
 
-Global dhcpd_interfaces option makes listen on defined interfaces all subnets.
+Global `dhcpd_interfaces` makes listen on defined interfaces all subnets.
 Interface per subnet definition allows listen as much subnets as you want.
-Global dhcpd_interfaces option does not work on systemd distros (ArchLinux,
+Global `dhcpd_interfaces` option does not work on systemd distros (ArchLinux,
 CentOS 7, Fedora), listen by default on interface with declared subnet. You
 can rewrite systemd service, but is dirty. Instead this, describe interfaces in
 configuration. Is modern and properly.
 
-Global hosts, subnets and classess
----------------
+#### Global hosts, subnets and classess
 
 It is meant to define in `group_vars`, for example it can be management vlan,
 or employees with laptops (traveling work) - new day in another office.
@@ -67,21 +60,16 @@ dhcpd_global_classes
 And can be activated via `dhcpd_use_global: true`.
 The syntax is match to non global definition.
 
-Extra
---------
+#### Extra
 
-* IP/MAC addresses, before deploy will be checked by Jinja with python-netaddr
+* ipaddr/maddr - before deploy will be checked by Jinja with python-netaddr
 lib;
 * Base of subnet now defined as prefix, netmask of subnet will be defined via
 Jinja filter;
-* After successfully generation of dhcpd.conf it will be validated by dhcpd
+* After successfully deploy of `dhcpd.conf` it will be validated by dhcpd
 itself - i.e. you can't broke your working configuration.
 
-Example configuration
-------------------------
-
-This saved in `group_vars/all/dhcp_server.yml` for global access.
-
+## Example configuration
 
 ```yaml
 ---
