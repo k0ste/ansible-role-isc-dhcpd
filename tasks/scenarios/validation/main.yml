@@ -1,0 +1,18 @@
+---
+- name: Set netaddr validation 'In Progress'
+  set_stats:
+    data:
+      dhcpd_validation:
+        status: "In Progress"
+        start: "{{ lookup('pipe', 'date +\"%a %b %d %H:%M:%S %Z %Y\"') }}"
+- name: facts! | Set facts about dhcpd group names
+  set_fact:
+    dhcpd_group_names: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
+                           json_query('[].name') }}"
+- include_tasks: netaddr_execution.yml
+- name: Set netaddr validation 'Complete'
+  set_stats:
+    data:
+      dhcpd_validation:
+        status: "Complete"
+        end: "{{ lookup('pipe', 'date +\"%a %b %d %H:%M:%S %Z %Y\"') }}"

@@ -1,0 +1,26 @@
+---
+- assert:
+    that: "outer_item.fixed_address | ipaddr()"
+    msg: "{{ outer_item.name ~ ' is not ipaddr: ' ~ outer_item.fixed_address }}"
+  loop_control:
+    label: "{{ outer_item.name }}"
+  when:
+  - "outer_item.fixed_address is defined"
+  - "outer_item.fixed_address != ''"
+- assert:
+    that: "outer_item.broadcast_address | ipaddr()"
+    msg: "{{ outer_item.name ~ ' is not ipaddr: ' ~
+             outer_item.broadcast_address }}"
+  loop_control:
+    label: "{{ outer_item.name }}"
+  when:
+  - "outer_item.broadcast_address is defined"
+  - "outer_item.broadcast_address != ''"
+- assert:
+    that: "outer_item.mac_address | hwaddr('linux')"
+    msg: "{{ outer_item.name ~ ' is not maddr: ' ~ outer_item.mac_address }}"
+  loop_control:
+    label: "{{ outer_item.name }}"
+  when:
+  - "outer_item.mac_address is defined"
+  - "outer_item.mac_address != ''"

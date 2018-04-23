@@ -62,14 +62,16 @@ The syntax is match to non global definition.
 
 #### Extra
 
-* ipaddr/maddr - before deploy will be checked by Jinja with python-netaddr
-lib;
+* Deploy scenarios (ruled by `dhcpd_scenario` variable):
+ - `validation` - perform hosts declarations validation (without deploy);
+ - `deploy` - deploy without validation, this is default for speedup deploy;
+ - `both` - deploy if validation pass;
 * Base of subnet now defined as prefix, netmask of subnet will be defined via
 Jinja filter;
 * After successfully deploy of `dhcpd.conf` it will be validated by dhcpd
 itself - i.e. you can't broke your working configuration.
 
-## Example configuration
+#### Example configuration
 
 ```yaml
 ---
@@ -83,6 +85,7 @@ dhcpd_install_package: 'false'
 dhcpd_service_enable: 'true'
 dhcpd_service_restart: 'true'
 dhcpd_use_global: 'true'
+dhcpd_scenario: 'deploy'
 
 dhcpd_common_default_lease_time: '86400'
 dhcpd_common_max_lease_time: '172800'

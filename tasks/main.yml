@@ -1,11 +1,10 @@
 ---
-- include_tasks: pre_requisite.yml
-- include_tasks: packages.yml
+- include_tasks: scenarios/validation/main.yml
   when:
-  - "hostvars[inventory_hostname]['dhcpd_install_package'] is defined"
-  - "hostvars[inventory_hostname]['dhcpd_install_package'] == 'true'"
-- include_tasks: apparmor.yml
+  - "hostvars[inventory_hostname]['dhcpd_scenario'] is defined"
+  - "hostvars[inventory_hostname]['dhcpd_scenario'] in ['validation', 'both']"
+- include_tasks: scenarios/deploy/main.yml
   when:
-  - "hostvars[inventory_hostname]['dhcpd_configure_apparmor'] is defined"
-  - "hostvars[inventory_hostname]['dhcpd_configure_apparmor'] == 'true'"
-- include_tasks: deploy_dhcpd.yml
+  - "hostvars[inventory_hostname]['dhcpd_scenario'] is not defined or
+    (hostvars[inventory_hostname]['dhcpd_scenario'] is defined and
+     hostvars[inventory_hostname]['dhcpd_scenario'] in ['deploy', 'both'])"

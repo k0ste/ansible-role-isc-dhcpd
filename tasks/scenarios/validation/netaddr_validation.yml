@@ -1,0 +1,34 @@
+---
+- assert:
+    that: "item.fixed_address | ipaddr()"
+    msg: "{{ item.name ~ ' is not ipaddr: ' ~ item.fixed_address }}"
+  with_items: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
+                  json_query(\"[?name=='\" ~
+                  vars['outer_item'] ~ \"'].hosts\") }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+  - "item.fixed_address is defined"
+  - "item.fixed_address != ''"
+- assert:
+    that: "item.broadcast_address | ipaddr()"
+    msg: "{{ item.name ~ ' is not ipaddr: ' ~ item.broadcast_address }}"
+  with_items: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
+                  json_query(\"[?name=='\" ~
+                  vars['outer_item'] ~ \"'].hosts\") }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+  - "item.broadcast_address is defined"
+  - "item.broadcast_address != ''"
+- assert:
+    that: "item.mac_address | hwaddr('linux')"
+    msg: "{{ item.name ~ ' is not maddr: ' ~ item.mac_address }}"
+  with_items: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
+                  json_query(\"[?name=='\" ~
+                  vars['outer_item'] ~ \"'].hosts\") }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+  - "item.mac_address is defined"
+  - "item.mac_address != ''"

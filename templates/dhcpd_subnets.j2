@@ -1,4 +1,5 @@
-{{ 'subnet ' + s.base | ipaddr('network') + ' netmask ' + s.base | ipaddr('netmask') + ' {' }}
+{{ 'subnet ' + s.base | ipaddr('network') + ' netmask ' +
+    s.base | ipaddr('netmask') + ' {' }}
 {% if s.interface is defined and s.interface != '' %}
 {{ '  ' ~ 'interface' ~ ' \"' ~ s.interface ~ '\";' }}
 {% endif %}
@@ -30,10 +31,12 @@
 {% if s.max_lease_time is defined and s.max_lease_time != '' %}
 {{ '  max-lease-time ' ~ s.max_lease_time ~ ';' }}
 {% endif %}
-{% if s.unknown_clients is defined and s.unknown_clients in ['allow', 'deny', 'ignore'] %}
+{% if s.unknown_clients is defined and
+      s.unknown_clients in ['allow', 'deny', 'ignore'] %}
 {{ '  ' + s.unknown_clients + ' unknown-clients;' }}
 {% endif %}
-{% if s.get_lease_hostnames is defined and s.get_lease_hostnames in ['true', 'false'] %}
+{% if s.get_lease_hostnames is defined and
+      s.get_lease_hostnames in ['true', 'false'] %}
 {{ '  get-lease-hostnames ' + s.get_lease_hostnames + ';' }}
 {% endif %}
 {% if s.filename is defined and s.filename != '' %}

@@ -1,0 +1,37 @@
+---
+- debug:
+    msg: "Start 'dhcpd_groups' validation."
+  when:
+  - "vars['dhcpd_group_names'] is defined"
+  - "vars['dhcpd_group_names'] != []"
+- include_tasks: netaddr_validation.yml
+  with_items: "{{ vars['dhcpd_group_names'] }}"
+  loop_control:
+    loop_var: "outer_item"
+  when:
+  - "vars['dhcpd_group_names'] is defined"
+  - "vars['dhcpd_group_names'] != []"
+- debug:
+    msg: "Start 'dhcpd_hosts' validation."
+  when:
+  - "hostvars[inventory_hostname]['dhcpd_hosts'] is defined"
+  - "hostvars[inventory_hostname]['dhcpd_hosts'] != ''"
+- include_tasks: netaddr_validation_simple.yml
+  with_items: "{{ hostvars[inventory_hostname]['dhcpd_hosts'] }}"
+  loop_control:
+    loop_var: "outer_item"
+  when:
+  - "hostvars[inventory_hostname]['dhcpd_hosts'] is defined"
+  - "hostvars[inventory_hostname]['dhcpd_hosts'] != ''"
+- debug:
+    msg: "Start 'dhcpd_global_hosts' validation."
+  when:
+  - "hostvars[inventory_hostname]['dhcpd_global_hosts'] is defined"
+  - "hostvars[inventory_hostname]['dhcpd_global_hosts'] != ''"
+- include_tasks: netaddr_validation_simple.yml
+  with_items: "{{ hostvars[inventory_hostname]['dhcpd_global_hosts'] }}"
+  loop_control:
+    loop_var: "outer_item"
+  when:
+  - "hostvars[inventory_hostname]['dhcpd_global_hosts'] is defined"
+  - "hostvars[inventory_hostname]['dhcpd_global_hosts'] != ''"
