@@ -1,11 +1,11 @@
 ---
-- include_tasks: pre_requisite.yml
-- include_tasks: packages.yml
+- import_tasks: 'pre_requisite.yml'
+- include_tasks: 'packages.yml'
   when:
   - "hostvars[inventory_hostname]['dhcpd_install_package'] is defined"
   - "hostvars[inventory_hostname]['dhcpd_install_package'] == 'true'"
-- include_tasks: apparmor.yml
+- include_tasks: 'apparmor.yml'
   when:
   - "hostvars[inventory_hostname]['dhcpd_configure_apparmor'] is defined"
   - "hostvars[inventory_hostname]['dhcpd_configure_apparmor'] == 'true'"
-- include_tasks: deploy_dhcpd.yml
+- import_tasks: 'deploy_dhcpd.yml'

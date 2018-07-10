@@ -1,9 +1,9 @@
 ---
-- include_tasks: scenarios/validation/main.yml
+- include_tasks: 'scenarios/validation/main.yml'
   when:
   - "hostvars[inventory_hostname]['dhcpd_scenario'] is defined"
   - "hostvars[inventory_hostname]['dhcpd_scenario'] in ['validation', 'both']"
-- include_tasks: scenarios/deploy/main.yml
+- include_tasks: 'scenarios/deploy/main.yml'
   when:
   - "hostvars[inventory_hostname]['dhcpd_scenario'] is not defined or
     (hostvars[inventory_hostname]['dhcpd_scenario'] is defined and

@@ -9,7 +9,7 @@
   set_fact:
     dhcpd_group_names: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
                            json_query('[].name') }}"
-- include_tasks: netaddr_execution.yml
+- import_tasks: 'netaddr_execution.yml'
 - name: Set netaddr validation 'Complete'
   set_stats:
     data:

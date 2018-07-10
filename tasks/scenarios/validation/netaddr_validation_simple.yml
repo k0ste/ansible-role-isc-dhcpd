@@ -1,5 +1,6 @@
 ---
-- assert:
+- name: dhcpd | Assert that fixed address is ip address
+  assert:
     that: "outer_item.fixed_address | ipaddr()"
     msg: "{{ outer_item.name ~ ' is not ipaddr: ' ~ outer_item.fixed_address }}"
   loop_control:
@@ -7,7 +8,8 @@
   when:
   - "outer_item.fixed_address is defined"
   - "outer_item.fixed_address != ''"
-- assert:
+- name: dhcpd | Assert that broadcast address is ip address
+  assert:
     that: "outer_item.broadcast_address | ipaddr()"
     msg: "{{ outer_item.name ~ ' is not ipaddr: ' ~
              outer_item.broadcast_address }}"
@@ -16,7 +18,8 @@
   when:
   - "outer_item.broadcast_address is defined"
   - "outer_item.broadcast_address != ''"
-- assert:
+- name: dhcpd | Assert that mac address is hardware address in linux format
+  assert:
     that: "outer_item.mac_address | hwaddr('linux')"
     msg: "{{ outer_item.name ~ ' is not maddr: ' ~ outer_item.mac_address }}"
   loop_control:

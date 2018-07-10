@@ -4,8 +4,8 @@
   when:
   - "vars['dhcpd_group_names'] is defined"
   - "vars['dhcpd_group_names'] != []"
-- include_tasks: netaddr_validation.yml
-  with_items: "{{ vars['dhcpd_group_names'] }}"
+- include_tasks: 'netaddr_validation.yml'
+  loop: "{{ vars['dhcpd_group_names'] | flatten(levels=1) }}"
   loop_control:
     loop_var: "outer_item"
   when:
@@ -16,8 +16,8 @@
   when:
   - "hostvars[inventory_hostname]['dhcpd_hosts'] is defined"
   - "hostvars[inventory_hostname]['dhcpd_hosts'] != ''"
-- include_tasks: netaddr_validation_simple.yml
-  with_items: "{{ hostvars[inventory_hostname]['dhcpd_hosts'] }}"
+- include_tasks: 'netaddr_validation_simple.yml'
+  loop: "{{ hostvars[inventory_hostname]['dhcpd_hosts'] | flatten(levels=1) }}"
   loop_control:
     loop_var: "outer_item"
   when:
@@ -28,8 +28,9 @@
   when:
   - "hostvars[inventory_hostname]['dhcpd_global_hosts'] is defined"
   - "hostvars[inventory_hostname]['dhcpd_global_hosts'] != ''"
-- include_tasks: netaddr_validation_simple.yml
-  with_items: "{{ hostvars[inventory_hostname]['dhcpd_global_hosts'] }}"
+- include_tasks: 'netaddr_validation_simple.yml'
+  loop: "{{
+    hostvars[inventory_hostname]['dhcpd_global_hosts'] | flatten(levels=1) }}"
   loop_control:
     loop_var: "outer_item"
   when:

@@ -8,7 +8,6 @@
     group: "root"
     mode: "0644"
     validate: "dhcpd -t -cf %s"
-  register: "dhcpd_deploy_result"
   notify: "Restart dhcpd"
 - name: dhcpd | Enable dhcpd
   service:
