@@ -14,13 +14,21 @@
 {{ '  option broadcast-address ' + s.broadcast_address + ';' }}
 {% endif %}
 {% if s.domain_nameservers is defined and s.domain_nameservers != '' %}
+{% if s.domain_nameservers is string %}
+{{ '  option domain-name-servers ' + s.domain_nameservers + ';' }}
+{% elif s.ntp_servers is sequence %}
 {{ '  option domain-name-servers ' + s.domain_nameservers | join(', ') + ';' }}
+{% endif %}
 {% endif %}
 {% if s.domain_name is defined and s.domain_name != '' %}
 {{ '  option domain-name ' + '\"' + s.domain_name + '\";' }}
 {% endif %}
 {% if s.ntp_servers is defined and s.ntp_servers != '' %}
+{% if s.ntp_servers is string %}
+{{ '  option ntp-servers ' + s.ntp_servers + ';' }}
+{% elif s.ntp_servers is sequence %}
 {{ '  option ntp-servers ' + s.ntp_servers | join(', ') + ';' }}
+{% endif %}
 {% endif %}
 {% if s.interface_mtu is defined and s.interface_mtu != '' %}
 {{ '  option interface-mtu ' ~ s.interface_mtu ~ ';' }}

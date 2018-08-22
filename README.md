@@ -160,11 +160,9 @@ dhcpd_subnets:
   interface: 'vlan100'
   routers: '198.19.1.1'
   interface_mtu: '9000'
-  domain_nameservers:
-  - '198.19.1.1'
+  domain_nameservers: '198.19.1.1'
   domain_name: 'example.com'
-  ntp_servers:
-  - '198.19.1.1'
+  ntp_servers: '198.19.1.1'
   pools:
   - range_start: '198.19.1.2'
     range_end: '198.19.1.60'
@@ -177,9 +175,11 @@ dhcpd_subnets:
   routers: '192.168.1.1'
   domain_nameservers:
   - '192.168.1.1'
+  - '192.168.1.2'
   domain_name: 'example.com'
   ntp_servers:
   - '192.168.1.1'
+  - '192.168.1.2'
   unknown_clients: 'deny'
   get_lease_hostnames: 'true'
   pools:
