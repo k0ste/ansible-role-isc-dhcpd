@@ -113,6 +113,10 @@ dhcpd_common_options:
 - name: 'reboottime'
   code: '211'
   type: 'unsigned integer 32'
+# Static route (https://tools.ietf.org/html/rfc3442)
+- name: 'rfc3442-classless-static-routes'
+  code: '121'
+  type: 'array of integer 8'
 
 dhcpd_global_classes:
 # This saved in group_vars/all/dhcp_server.yaml for global access.
@@ -186,6 +190,9 @@ dhcpd_subnets:
   - range_start: '192.168.1.1'
     range_end: '192.168.1.1'
     rule: 'allow members of "CiscoSPA"'
+#For add static route need declare next variable
+  rfc3442_classless_static_routes: "24, 192,168,2 192,168,1,254"
+
 
 dhcpd_shared_networks:
 ## Two subnets in one VLAN.

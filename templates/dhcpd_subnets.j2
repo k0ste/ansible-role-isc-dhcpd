@@ -53,3 +53,6 @@
 {% if s.next_server is defined and s.next_server != '' %}
 {{ '  ' ~ 'next-server' ~ ' ' ~ s.next_server ~ ';' }}
 {% endif %}
+{% if s.rfc3442_classless_static_routes is defined and s.rfc3442_classless_static_routes != '' %}
+{{ '  option rfc3442-classless-static-routes' ~ ' ' ~ s.rfc3442_classless_static_routes ~ ';' }}
+{% endif %}
