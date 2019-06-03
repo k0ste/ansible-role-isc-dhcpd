@@ -3,6 +3,7 @@
   assert:
     that: "item.fixed_address | ipaddr()"
     msg: "{{ item.name ~ ' is not ipaddr: ' ~ item.fixed_address }}"
+    quiet: "true"
   loop: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
                   json_query(\"[?name=='\" ~
                   vars['outer_item'] ~ \"'].hosts\") | flatten(levels=1) }}"
@@ -15,6 +16,7 @@
   assert:
     that: "item.broadcast_address | ipaddr()"
     msg: "{{ item.name ~ ' is not ipaddr: ' ~ item.broadcast_address }}"
+    quiet: "true"
   loop: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
                   json_query(\"[?name=='\" ~
                   vars['outer_item'] ~ \"'].hosts\") | flatten(levels=1) }}"
@@ -27,6 +29,7 @@
   assert:
     that: "item.mac_address | hwaddr('linux')"
     msg: "{{ item.name ~ ' is not maddr: ' ~ item.mac_address }}"
+    quiet: "true"
   loop: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
                   json_query(\"[?name=='\" ~
                   vars['outer_item'] ~ \"'].hosts\") | flatten(levels=1) }}"
