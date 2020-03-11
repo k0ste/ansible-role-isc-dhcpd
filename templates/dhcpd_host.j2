@@ -10,6 +10,22 @@
 {% if h.routers is defined and h.routers != '' %}
 {{ '  option routers ' + h.routers + ';' }}
 {% endif %}
+{% if h.static_routes is defined and h.static_routes != '' %}
+{% for hr in h.static_routes %}
+{% if loop.first %}
+{{ '  option static-routes ' -}}
+{% endif %}
+{% if (hr.route is defined and hr.route | ipaddr('host')) and
+      (hr.next_hop is defined and hr.next_hop | ipaddr('host')) %}
+{{ hr.route + ' ' + hr.next_hop -}}
+{% endif %}
+{% if loop.last %}
+{{ ';' }}
+{% else %}
+{{ ', ' -}}
+{% endif %}
+{% endfor %}
+{% endif %}
 {% if h.broadcast_address is defined and h.broadcast_address != '' %}
 {{ '  option broadcast-address ' + h.broadcast_address + ';' }}
 {% endif %}

@@ -163,6 +163,12 @@ dhcpd_subnets:
   domain_nameservers: '198.19.1.1'
   domain_name: 'example.com'
   ntp_servers: '198.19.1.1'
+# DHCP option 33. Option takes only host addresses without mask.
+  static_routes:
+  - route: '100.100.105.10'
+    next_hop: '198.19.1.1'
+  - route: '100.100.105.11'
+    next_hop: '198.19.1.1'
   pools:
   - range_start: '198.19.1.2'
     range_end: '198.19.1.60'
