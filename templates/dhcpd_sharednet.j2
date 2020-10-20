@@ -3,7 +3,7 @@
 {{ '  interface ' + '\"' + n.interface + '\";' }}
 {% endif %}
 {% for s in n.subnets %}
-{% if s.base is defined and s.base | ipaddr() %}
+{% if s.base is defined and s.base | ansible.netcommon.ipaddr() %}
 {{ '  ' }}{% include 'dhcpd_subnets.j2' %}
 {% if s.pools is defined %}
 {% for p in s.pools %}

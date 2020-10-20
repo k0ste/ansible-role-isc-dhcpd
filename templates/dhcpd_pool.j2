@@ -1,5 +1,6 @@
-{% if (p.range_start is defined and p.range_start | ipaddr()) and
-      (p.range_end is defined and p.range_end | ipaddr()) %}
+{% if (p.range_start is defined and p.range_start |
+       ansible.netcommon.ipaddr()) and
+      (p.range_end is defined and p.range_end | ansible.netcommon.ipaddr()) %}
 {{ '  pool {' }}
 {% if p.rule is defined and p.rule != '' %}
 {{ '    ' + p.rule + ';' }}

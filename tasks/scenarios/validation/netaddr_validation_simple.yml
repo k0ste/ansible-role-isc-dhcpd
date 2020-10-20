@@ -1,7 +1,7 @@
 ---
 - name: dhcpd | Assert that fixed address is ip address
-  assert:
-    that: "outer_item.fixed_address | ipaddr()"
+  ansible.builtin.assert:
+    that: "outer_item.fixed_address | ansible.netcommon.ipaddr('host')"
     msg: "{{ outer_item.name ~ ' is not ipaddr: ' ~ outer_item.fixed_address }}"
     quiet: "true"
   loop_control:
@@ -10,9 +10,9 @@
   - "outer_item.fixed_address is defined"
   - "outer_item.fixed_address != ''"
 - name: dhcpd | Assert that broadcast address is ip address
-  assert:
-    that: "outer_item.broadcast_address | ipaddr()"
-    msg: "{{ outer_item.name ~ ' is not ipaddr: ' ~
+  ansible.builtin.assert:
+    that: "outer_item.broadcast_address | ansible.netcommon.ipaddr('broadcast')"
+    msg: "{{ outer_item.name ~ ' is not broadcast ipaddr: ' ~
              outer_item.broadcast_address }}"
     quiet: "true"
   loop_control:
@@ -21,8 +21,8 @@
   - "outer_item.broadcast_address is defined"
   - "outer_item.broadcast_address != ''"
 - name: dhcpd | Assert that mac address is hardware address in linux format
-  assert:
-    that: "outer_item.mac_address | hwaddr('linux')"
+  ansible.builtin.assert:
+    that: "outer_item.mac_address | ansible.netcommon.hwaddr('linux')"
     msg: "{{ outer_item.name ~ ' is not maddr: ' ~ outer_item.mac_address }}"
     quiet: "true"
   loop_control:

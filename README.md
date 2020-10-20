@@ -4,7 +4,7 @@ This role installs and configures ISC dhcpd.
 
 ## Requirements for usage
 
-* Ansible 2.5+;
+* Ansible 2.10+;
 * [python-netaddr](//docs.ansible.com/ansible/playbooks_filters_ipaddr.html);
 
 #### Ubuntu AppArmor
