@@ -5,8 +5,8 @@
     msg: "{{ item.name ~ ' is not ipaddr: ' ~ item.fixed_address }}"
     quiet: "true"
   loop: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
-                  json_query(\"[?name=='\" ~
-                  vars['outer_item'] ~ \"'].hosts\") | flatten(levels=1) }}"
+    community.general.json_query(\"[?name=='\" ~ vars['outer_item'] ~
+    \"'].hosts\") | flatten(levels=1) }}"
   loop_control:
     label: "{{ item.name }}"
   when:
@@ -19,7 +19,7 @@
       item.broadcast_address }}"
     quiet: "true"
   loop: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
-                  json_query(\"[?name=='\" ~
+                  community.general.json_query(\"[?name=='\" ~
                   vars['outer_item'] ~ \"'].hosts\") | flatten(levels=1) }}"
   loop_control:
     label: "{{ item.name }}"
@@ -32,7 +32,7 @@
     msg: "{{ item.name ~ ' is not maddr: ' ~ item.mac_address }}"
     quiet: "true"
   loop: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
-                  json_query(\"[?name=='\" ~
+                  community.general.json_query(\"[?name=='\" ~
                   vars['outer_item'] ~ \"'].hosts\") | flatten(levels=1) }}"
   loop_control:
     label: "{{ item.name }}"

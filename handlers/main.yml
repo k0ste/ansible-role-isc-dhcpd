@@ -1,13 +1,13 @@
 ---
 - name: Restart apparmor
-  service:
+  ansible.builtin.service:
     name: "{{ hostvars[inventory_hostname]['dhcpd_apparmor_service'] }}"
     state: "restarted"
   when:
   - "hostvars[inventory_hostname]['dhcpd_apparmor_restart'] is defined"
   - "hostvars[inventory_hostname]['dhcpd_apparmor_restart'] == 'true'"
 - name: Restart dhcpd
-  service:
+  ansible.builtin.service:
     name: "{{ hostvars[inventory_hostname]['dhcpd_dhcpd_service'] }}"
     state: "restarted"
   when:
