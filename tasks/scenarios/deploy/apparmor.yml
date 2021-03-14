@@ -11,15 +11,15 @@
     group: "root"
     mode: "0644"
   when:
-  - "apparmor_local.stat.exists"
+    - "apparmor_local.stat.exists"
   notify:
-  - "Restart apparmor"
+    - "Restart apparmor"
 - name: dhcpd | Enable apparmor
   ansible.builtin.service:
     name: "{{ hostvars[inventory_hostname]['dhcpd_apparmor_service'] }}"
     state: "started"
     enabled: "yes"
   when:
-  - "hostvars[inventory_hostname]['dhcpd_apparmor_enable'] is defined"
-  - "hostvars[inventory_hostname]['dhcpd_apparmor_enable'] == 'true'"
-- meta: flush_handlers
+    - "hostvars[inventory_hostname]['dhcpd_apparmor_enable'] is defined"
+    - "hostvars[inventory_hostname]['dhcpd_apparmor_enable'] == 'true'"
+- meta: "flush_handlers"

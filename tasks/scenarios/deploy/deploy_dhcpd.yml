@@ -3,7 +3,7 @@
   ansible.builtin.template:
     src: "dhcpd.conf.j2"
     dest: "{{ hostvars[inventory_hostname]['dhcpd_conf_dest'] + '/' +
-              hostvars[inventory_hostname]['dhcpd_dhcpd_conf'] }}"
+      hostvars[inventory_hostname]['dhcpd_dhcpd_conf'] }}"
     owner: "root"
     group: "root"
     mode: "0644"
@@ -15,5 +15,5 @@
     state: "started"
     enabled: "yes"
   when:
-  - "hostvars[inventory_hostname]['dhcpd_service_enable'] is defined"
-  - "hostvars[inventory_hostname]['dhcpd_service_enable'] == 'true'"
+    - "hostvars[inventory_hostname]['dhcpd_service_enable'] is defined"
+    - "hostvars[inventory_hostname]['dhcpd_service_enable'] == 'true'"

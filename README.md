@@ -1,10 +1,10 @@
-# isc_dhcpd
+# ansible-isc_dhcpd
 
-This role installs and configures ISC dhcpd.
+This role installs and configures ISC dhcpd
 
 ## Requirements for usage
 
-* Ansible 2.10+;
+* Ansible 3.0.0+;
 * [python-netaddr](//docs.ansible.com/ansible/playbooks_filters_ipaddr.html);
 
 #### Ubuntu AppArmor

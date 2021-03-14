@@ -1,7 +1,8 @@
 ---
 - name: dhcpd | Assert that fixed address is ip address
   ansible.builtin.assert:
-    that: "item.fixed_address | ansible.netcommon.ipaddr('host')"
+    that:
+      - "item.fixed_address | ansible.netcommon.ipaddr('host')"
     msg: "{{ item.name ~ ' is not ipaddr: ' ~ item.fixed_address }}"
     quiet: "true"
   loop: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
@@ -10,32 +11,33 @@
   loop_control:
     label: "{{ item.name }}"
   when:
-  - "item.fixed_address is defined"
-  - "item.fixed_address != ''"
+    - "item.fixed_address is defined"
+    - "item.fixed_address != ''"
 - name: dhcpd | Assert that broadcast address is ip address
   ansible.builtin.assert:
-    that: "item.broadcast_address | ansible.netcommon.ipaddr('broadcast')"
+    that:
+      - "item.broadcast_address | ansible.netcommon.ipaddr('broadcast')"
     msg: "{{ item.name ~ ' is not broadcast ipaddr: ' ~
       item.broadcast_address }}"
     quiet: "true"
   loop: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
-                  community.general.json_query(\"[?name=='\" ~
-                  vars['outer_item'] ~ \"'].hosts\") | flatten(levels=1) }}"
+    community.general.json_query(\"[?name=='\" ~ vars['outer_item'] ~
+    \"'].hosts\") | flatten(levels=1) }}"
   loop_control:
     label: "{{ item.name }}"
   when:
-  - "item.broadcast_address is defined"
-  - "item.broadcast_address != ''"
+    - "item.broadcast_address is defined"
+    - "item.broadcast_address != ''"
 - name: dhcpd | Assert that mac address is hardware address in linux format
   ansible.builtin.assert:
     that: "item.mac_address | ansible.netcommon.hwaddr('linux')"
     msg: "{{ item.name ~ ' is not maddr: ' ~ item.mac_address }}"
     quiet: "true"
   loop: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
-                  community.general.json_query(\"[?name=='\" ~
-                  vars['outer_item'] ~ \"'].hosts\") | flatten(levels=1) }}"
+    community.general.json_query(\"[?name=='\" ~ vars['outer_item'] ~
+    \"'].hosts\") | flatten(levels=1) }}"
   loop_control:
     label: "{{ item.name }}"
   when:
-  - "item.mac_address is defined"
-  - "item.mac_address != ''"
+    - "item.mac_address is defined"
+    - "item.mac_address != ''"

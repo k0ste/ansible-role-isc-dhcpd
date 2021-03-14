@@ -4,12 +4,12 @@
 - name: dhcpd | Load packages tasks
   include_tasks: "packages.yml"
   when:
-  - "hostvars[inventory_hostname]['dhcpd_install_package'] is defined"
-  - "hostvars[inventory_hostname]['dhcpd_install_package'] == 'true'"
+    - "hostvars[inventory_hostname]['dhcpd_install_package'] is defined"
+    - "hostvars[inventory_hostname]['dhcpd_install_package'] == 'true'"
 - name: dhcpd | Load apparmor tasks
   include_tasks: "apparmor.yml"
   when:
-  - "hostvars[inventory_hostname]['dhcpd_configure_apparmor'] is defined"
-  - "hostvars[inventory_hostname]['dhcpd_configure_apparmor'] == 'true'"
+    - "hostvars[inventory_hostname]['dhcpd_configure_apparmor'] is defined"
+    - "hostvars[inventory_hostname]['dhcpd_configure_apparmor'] == 'true'"
 - name: dhcpd | Load deploy tasks
   import_tasks: "deploy_dhcpd.yml"

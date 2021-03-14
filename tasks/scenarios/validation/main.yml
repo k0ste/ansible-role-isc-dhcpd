@@ -8,7 +8,7 @@
 - name: dhcpd | Set facts about dhcpd group names
   ansible.builtin.set_fact:
     dhcpd_group_names: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
-    community.general.json_query('[].name') }}"
+      community.general.json_query('[].name') }}"
 - import_tasks: "netaddr_execution.yml"
 - name: Set netaddr validation 'Complete'
   ansible.builtin.set_stats:

@@ -1,6 +1,6 @@
 {{ 'group {' }}
 {% if g.next_server is defined and g.next_server != '' %}
-{{ '  ' ~ 'next-server' ~ ' ' ~ g.next_server ~ ';' }}
+{{ '  ' ~ 'next-server ' ~ g.next_server ~ ';' }}
 {% endif %}
 {% if g.options is defined and g.options != '' %}
 {% for o in g.options %}

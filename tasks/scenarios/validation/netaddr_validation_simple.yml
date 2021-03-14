@@ -7,19 +7,19 @@
   loop_control:
     label: "{{ outer_item.name }}"
   when:
-  - "outer_item.fixed_address is defined"
-  - "outer_item.fixed_address != ''"
+    - "outer_item.fixed_address is defined"
+    - "outer_item.fixed_address != ''"
 - name: dhcpd | Assert that broadcast address is ip address
   ansible.builtin.assert:
     that: "outer_item.broadcast_address | ansible.netcommon.ipaddr('broadcast')"
     msg: "{{ outer_item.name ~ ' is not broadcast ipaddr: ' ~
-             outer_item.broadcast_address }}"
+      outer_item.broadcast_address }}"
     quiet: "true"
   loop_control:
     label: "{{ outer_item.name }}"
   when:
-  - "outer_item.broadcast_address is defined"
-  - "outer_item.broadcast_address != ''"
+    - "outer_item.broadcast_address is defined"
+    - "outer_item.broadcast_address != ''"
 - name: dhcpd | Assert that mac address is hardware address in linux format
   ansible.builtin.assert:
     that: "outer_item.mac_address | ansible.netcommon.hwaddr('linux')"
@@ -28,5 +28,5 @@
   loop_control:
     label: "{{ outer_item.name }}"
   when:
-  - "outer_item.mac_address is defined"
-  - "outer_item.mac_address != ''"
+    - "outer_item.mac_address is defined"
+    - "outer_item.mac_address != ''"
