@@ -94,7 +94,7 @@ dhcpd_common_log_facility: 'local7'
 # https://www.iana.org/assignments/bootp-dhcp-parameters/bootp-dhcp-parameters.xhtml
 dhcpd_common_options:
 # TFTP Server Name (https://tools.ietf.org/html/rfc2132)
-- name: 'opt66'
+- name: 'servername'
   code: '66'
   type: 'string'
 # DHCP Captive-Portal (https://tools.ietf.org/html/rfc7710)
@@ -140,7 +140,7 @@ dhcpd_global_subnets:
   - range_start: '198.18.1.2'
     range_end: '198.18.1.62'
     options: # options only for this pool
-    - key: 'captive'
+    - key: 'option captive'
       value: '"http://captive.portal/"'
 
 dhcpd_classes:
@@ -149,9 +149,9 @@ dhcpd_classes:
 - name: "CiscoSPA"
   rule: 'match if option vendor-class-identifier ~= "^(Cisco SPA)[0-9]+(G|)$"'
   options:
-  - key: 'opt66'
+  - key: 'option servername'
     value: '"http://example.com/cisco.php?mac=$MAU&model=$PN"'
-  - key: 'time-offset'
+  - key: 'option time-offset'
     value: '25200'
 
 dhcpd_subnets:
@@ -226,16 +226,16 @@ dhcpd_groups:
 # which a client can download the boot loader file.
   next_server: '10.10.10.10'
   options: # dhcp options only for this group
-  - key: 'dhcp-parameter-request-list'
+  - key: 'option dhcp-parameter-request-list'
     value: 'concat(option dhcp-parameter-request-list,d1,d2,d3)'
     equal_sign: 'true' # add '=' char between key and value, false by default
-  - key: 'configfile'
+  - key: 'option configfile'
     value: '"boot/syslinux/archiso.cfg"'
     equal_sign: 'true'
-  - key: 'pathprefix'
+  - key: 'option pathprefix'
     value: '"/arch/"'
     equal_sign: 'true'
-  - key: 'reboottime'
+  - key: 'option reboottime'
     value: '10'
     equal_sign: 'true'
   hosts:

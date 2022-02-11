@@ -1,5 +1,5 @@
 {% if o.equal_sign is defined and o.equal_sign == 'true' %}
-{{ 'option ' ~ o.key ~ ' = ' ~ o.value + ';' }}
+{{ o.key ~ ' = ' ~ o.value + ';' }}
 {% else %}
-{{ 'option ' ~ o.key ~ ' ' ~ o.value + ';' }}
+{{ o.key ~ ' ' ~ o.value + ';' }}
 {% endif %}
