@@ -38,16 +38,21 @@
 {{ '  get-lease-hostnames ' + h.get_lease_hostnames + ';' }}
 {% endif %}
 {% if h.domain_name is defined and h.domain_name != '' %}
-{{ '  option domain-name ' + '\"' + h.domain_name + '\";' }}
+{{ '  option domain-name \"' + h.domain_name + '\";' }}
 {% endif %}
 {% if h.host_name is defined and h.host_name != '' %}
-{{ '  option host-name ' ~ '\"' ~ h.host_name ~ '\";' }}
+{{ '  option host-name \"' ~ h.host_name ~ '\";' }}
 {% endif %}
 {% if h.default_lease_time is defined and h.default_lease_time != '' %}
 {{ '  default-lease-time ' ~ h.default_lease_time ~ ';' }}
 {% endif %}
 {% if h.max_lease_time is defined and h.max_lease_time != '' %}
 {{ '  max-lease-time ' ~ h.max_lease_time ~ ';' }}
+{% endif %}
+{% if h.eval_if is defined and h.eval_if != '' %}
+{% for e in h.eval_if %}
+{{ '  ' }}{% include 'dhcpd_eval_if.j2' %}
+{% endfor %}
 {% endif %}
 {% if h.options is defined and h.options != '' %}
 {% for o in h.options %}

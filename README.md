@@ -169,6 +169,29 @@ dhcpd_subnets:
     next_hop: '198.19.1.1'
   - route: '100.100.105.11'
     next_hop: '198.19.1.1'
+# The if statement and the elsif continuation statement both take boolean
+# expressions as their arguments. That is, they take expressions that, when
+# evaluated, produce a boolean result. If the expression evaluates to true,
+# then the statements enclosed in braces following the if statement are
+# executed, and all subsequent elsif and else clauses are skipped. Otherwise,
+# each subsequent elsif clause's expression is checked, until an elsif clause
+# is encountered whose test evaluates to true. If such a clause is found, the
+# statements in braces following it are executed, and then any subsequent elsif
+# and else clauses are skipped. If all the if and elsif clauses are checked but
+# none of their expressions evaluate true, then if there is an else clause, the
+# statements enclosed in braces following the else are evaluated. Boolean
+# expressions that evaluate to null are treated as false in conditionals.
+  eval_if:
+    - condition: 'exists user-class and option user-class ~= "^iPXE$"'
+      value: 'filename "menu.ipxe"'
+      elsif:
+        - condition:
+            'exists client-architecture and option client-architecture = "00:00"'
+          value:
+            - 'filename "strange.kpxe"'
+      else:
+        - value:
+            - 'filename "ipxe.efi"'
   pools:
   - range_start: '198.19.1.2'
     range_end: '198.19.1.60'

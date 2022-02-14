@@ -16,8 +16,7 @@
 {{ '  option static-routes ' -}}
 {% endif %}
 {% if (sr.route is defined and sr.route | ansible.netcommon.ipaddr('host')) and
-      (sr.next_hop is defined and sr.next_hop |
-       ansible.netcommon.ipaddr('host')) %}
+  (sr.next_hop is defined and sr.next_hop | ansible.netcommon.ipaddr('host')) %}
 {{ sr.route + ' ' + sr.next_hop -}}
 {% endif %}
 {% if loop.last %}
@@ -66,8 +65,13 @@
 {{ '  get-lease-hostnames ' + s.get_lease_hostnames + ';' }}
 {% endif %}
 {% if s.filename is defined and s.filename != '' %}
-{{ '  ' ~ 'filename' ~ ' \"' ~ s.filename ~ '\";' }}
+{{ '  filename \"' ~ s.filename ~ '\";' }}
 {% endif %}
 {% if s.next_server is defined and s.next_server != '' %}
-{{ '  ' ~ 'next-server ' ~ s.next_server ~ ';' }}
+{{ '  next-server ' ~ s.next_server ~ ';' }}
+{% endif %}
+{% if s.eval_if is defined and s.eval_if != '' %}
+{% for e in s.eval_if %}
+{{ '  ' }}{% include 'dhcpd_eval_if.j2' %}
+{% endfor %}
 {% endif %}

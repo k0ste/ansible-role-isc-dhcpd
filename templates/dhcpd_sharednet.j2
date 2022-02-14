@@ -10,6 +10,11 @@
 {% include 'dhcpd_pool.j2' %}
 {% endfor %}
 {% endif %}
+{% if s.eval_if is defined and s.eval_if != '' %}
+{% for e in s.eval_if %}
+{{ '  ' }}{% include 'dhcpd_eval_if.j2' %}
+{% endfor %}
+{% endif %}
 {% if s.options is defined and s.options != '' %}
 {% for o in s.options %}
 {{ '  ' }}{% include 'dhcpd_options.j2' %}
@@ -23,9 +28,15 @@
 {% include 'dhcpd_pool.j2' %}
 {% endfor %}
 {% endif %}
+{% if n.eval_if is defined and n.eval_if != '' %}
+{% for e in n.eval_if %}
+{{ '  ' }}{% include 'dhcpd_eval_if.j2' %}
+{% endfor %}
+{% endif %}
 {% if n.options is defined and n.options != '' %}
 {% for o in n.options %}
 {{ '  ' }}{% include 'dhcpd_options.j2' %}
 {% endfor %}
 {% endif %}
-{{ '}\n' }}
+{{ '}' }}
+{{ '' }}
