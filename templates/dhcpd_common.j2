@@ -22,11 +22,11 @@
    'leasequery;' }}
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_common_domain'] is defined %}
-{{ 'option domain-name ' + '\"' +
+{{ 'option domain-name \"' +
    hostvars[inventory_hostname]['dhcpd_common_domain'] + '\";' }}
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_common_nameservers'] is defined %}
-{{ 'option domain-name-servers ' + '\"' +
+{{ 'option domain-name-servers \"' +
    hostvars[inventory_hostname]['dhcpd_common_nameservers'] + '\";' }}
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_common_default_lease_time'] is

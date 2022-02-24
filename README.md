@@ -93,26 +93,30 @@ dhcpd_common_authoritative: 'true'
 dhcpd_common_log_facility: 'local7'
 # https://www.iana.org/assignments/bootp-dhcp-parameters/bootp-dhcp-parameters.xhtml
 dhcpd_common_options:
-# TFTP Server Name (https://tools.ietf.org/html/rfc2132)
-- name: 'servername'
-  code: '66'
-  type: 'string'
-# DHCP Captive-Portal (https://tools.ietf.org/html/rfc7710)
-- name: 'captive'
-  code: '160'
-  type: 'string'
-# PXE ConfigFile (https://tools.ietf.org/html/rfc5071)
-- name: 'configfile'
-  code: '209'
-  type: 'text'
-# PXE PathPrefix (https://tools.ietf.org/html/rfc5071)
-- name: 'pathprefix'
-  code: '210'
-  type: 'text'
-# PXE RebootTime (https://tools.ietf.org/html/rfc5071)
-- name: 'reboottime'
-  code: '211'
-  type: 'unsigned integer 32'
+  # TFTP Server Name (https://tools.ietf.org/html/rfc2132)
+  - name: 'server-name'
+    code: '66'
+    type: 'string'
+  # Client System Architecture (https://www.rfc-editor.org/rfc/rfc4578.html)
+  - name: 'client-arch'
+    code: '93'
+    type: 'unsigned integer 16'
+  # DHCP Captive-Portal (https://tools.ietf.org/html/rfc7710)
+  - name: 'captive-portal'
+    code: '160'
+    type: 'string'
+  # PXE ConfigFile (https://tools.ietf.org/html/rfc5071)
+  - name: 'config-file'
+    code: '209'
+    type: 'text'
+  # PXE PathPrefix (https://tools.ietf.org/html/rfc5071)
+  - name: 'path-prefix'
+    code: '210'
+    type: 'text'
+  # PXE RebootTime (https://tools.ietf.org/html/rfc5071)
+  - name: 'reboot-time'
+    code: '211'
+    type: 'unsigned integer 32'
 
 dhcpd_global_classes:
 # This saved in group_vars/all/dhcp_server.yaml for global access.
@@ -140,7 +144,7 @@ dhcpd_global_subnets:
   - range_start: '198.18.1.2'
     range_end: '198.18.1.62'
     options: # options only for this pool
-    - key: 'option captive'
+    - key: 'option captive-portal'
       value: '"http://captive.portal/"'
 
 dhcpd_classes:
@@ -149,7 +153,7 @@ dhcpd_classes:
 - name: "CiscoSPA"
   rule: 'match if option vendor-class-identifier ~= "^(Cisco SPA)[0-9]+(G|)$"'
   options:
-  - key: 'option servername'
+  - key: 'option server-name'
     value: '"http://example.com/cisco.php?mac=$MAU&model=$PN"'
   - key: 'option time-offset'
     value: '25200'
@@ -185,13 +189,12 @@ dhcpd_subnets:
     - condition: 'exists user-class and option user-class ~= "^iPXE$"'
       value: 'filename "menu.ipxe"'
       elsif:
-        - condition:
-            'exists client-architecture and option client-architecture = "00:00"'
-          value:
-            - 'filename "strange.kpxe"'
+        - condition: 'exists client-arch and option client-arch = 00:00'
+          value: 'filename "undionly.kpxe"'
+        - condition: 'exists client-arch and option client-arch = 00:07'
+          value: 'filename "ipxe.efi"'
       else:
-        - value:
-            - 'filename "ipxe.efi"'
+        - value: 'filename "ipxe.efi"'
   pools:
   - range_start: '198.19.1.2'
     range_end: '198.19.1.60'
@@ -252,13 +255,13 @@ dhcpd_groups:
   - key: 'option dhcp-parameter-request-list'
     value: 'concat(option dhcp-parameter-request-list,d1,d2,d3)'
     equal_sign: 'true' # add '=' char between key and value, false by default
-  - key: 'option configfile'
+  - key: 'option config-file'
     value: '"boot/syslinux/archiso.cfg"'
     equal_sign: 'true'
-  - key: 'option pathprefix'
+  - key: 'option path-prefix'
     value: '"/arch/"'
     equal_sign: 'true'
-  - key: 'option reboottime'
+  - key: 'option reboot-time'
     value: '10'
     equal_sign: 'true'
   hosts:

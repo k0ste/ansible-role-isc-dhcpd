@@ -1,4 +1,4 @@
-{{ 'class ' + '\"' + c.name + '\" {' }}
+{{ 'class \"' + c.name + '\" {' }}
 {{ '  ' + c.rule + ';' }}
 {% if c.options is defined and c.options != '' %}
 {% for o in c.options %}
@@ -8,7 +8,7 @@
 {{ '}' }}
 {% if c.subclass is defined %}
 {% for sc in c.subclass %}
-{{ 'subclass ' + '\"' + c.name + '\"' + ' 1:' + sc.mac_address + ' {' }}
+{{ 'subclass \"' + c.name + '\"' + ' 1:' + sc.mac_address + ' {' }}
 {{ '}' }}
 {% endfor %}
 {% endif %}

@@ -1,17 +1,17 @@
 ---
-- name: Set netaddr validation 'In Progress'
+- name: "Set netaddr validation 'In Progress'"
   ansible.builtin.set_stats:
     data:
       dhcpd_validation:
         status: "In Progress"
         start: "{{ lookup('pipe', 'date +\"%a %b %d %H:%M:%S %Z %Y\"') }}"
-- name: dhcpd | Set facts about dhcpd group names
+- name: "dhcpd | Set facts about dhcpd group names"
   ansible.builtin.set_fact:
     dhcpd_group_names: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
       community.general.json_query('[].name') }}"
 - ansible.builtin.import_tasks:
     file: "netaddr_execution.yml"
-- name: Set netaddr validation 'Complete'
+- name: "Set netaddr validation 'Complete'"
   ansible.builtin.set_stats:
     data:
       dhcpd_validation:

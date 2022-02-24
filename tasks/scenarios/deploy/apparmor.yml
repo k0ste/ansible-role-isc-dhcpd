@@ -1,9 +1,10 @@
 ---
-- name: dhcpd | Check if the /etc/apparmor.d/local folder exists
+- name: "dhcpd | Check if the /etc/apparmor.d/local folder exists"
   ansible.builtin.stat:
     path: "{{ hostvars[inventory_hostname]['dhcpd_apparmor_dest'] }}"
   register: "apparmor_local"
-- name: dhcpd | Allow AppArmor access to temporary ansible files for validation
+- name:
+    "dhcpd | Allow AppArmor access to temporary ansible files for validation"
   ansible.builtin.copy:
     src: "apparmor/usr.sbin.dhcpd"
     dest: "/etc/apparmor.d/local/usr.sbin.dhcpd"
@@ -14,7 +15,7 @@
     - "apparmor_local.stat.exists"
   notify:
     - "Restart apparmor"
-- name: dhcpd | Enable apparmor
+- name: "dhcpd | Enable apparmor"
   ansible.builtin.service:
     name: "{{ hostvars[inventory_hostname]['dhcpd_apparmor_service'] }}"
     state: "started"

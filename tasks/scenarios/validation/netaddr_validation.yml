@@ -1,5 +1,5 @@
 ---
-- name: dhcpd | Assert that fixed address is ip address
+- name: "dhcpd | Assert that fixed address is ip address"
   ansible.builtin.assert:
     that:
       - "item.fixed_address | ansible.netcommon.ipaddr('host')"
@@ -13,7 +13,7 @@
   when:
     - "item.fixed_address is defined"
     - "item.fixed_address != ''"
-- name: dhcpd | Assert that broadcast address is ip address
+- name: "dhcpd | Assert that broadcast address is ip address"
   ansible.builtin.assert:
     that:
       - "item.broadcast_address | ansible.netcommon.ipaddr('broadcast')"
@@ -28,7 +28,7 @@
   when:
     - "item.broadcast_address is defined"
     - "item.broadcast_address != ''"
-- name: dhcpd | Assert that mac address is hardware address in linux format
+- name: "dhcpd | Assert that mac address is hardware address in linux format"
   ansible.builtin.assert:
     that: "item.mac_address | ansible.netcommon.hwaddr('linux')"
     msg: "{{ item.name ~ ' is not maddr: ' ~ item.mac_address }}"

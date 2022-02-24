@@ -1,8 +1,8 @@
 ---
-- name: dhcpd | Add the OS specific variables
+- name: "dhcpd | Add the OS specific variables"
   ansible.builtin.include_vars:
     file: "{{ hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
-- name: dhcpd | Deploy dhcpd service conf
+- name: "dhcpd | Deploy dhcpd service conf"
   ansible.builtin.template:
     src: "{{ 'service_' + hostvars[inventory_hostname]['ansible_os_family'] +
       '.j2' }}"

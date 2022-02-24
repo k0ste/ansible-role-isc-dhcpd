@@ -38,7 +38,7 @@
 {% endif %}
 {% endif %}
 {% if s.domain_name is defined and s.domain_name != '' %}
-{{ '  option domain-name ' + '\"' + s.domain_name + '\";' }}
+{{ '  option domain-name \"' + s.domain_name + '\";' }}
 {% endif %}
 {% if s.ntp_servers is defined and s.ntp_servers != '' %}
 {% if s.ntp_servers is string %}

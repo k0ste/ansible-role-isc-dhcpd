@@ -1,19 +1,19 @@
 ---
-- name: dhcpd | Load pre requisite tasks
+- name: "dhcpd | Load pre requisite tasks"
   ansible.builtin.import_tasks:
     file: "pre_requisite.yml"
-- name: dhcpd | Load packages tasks
+- name: "dhcpd | Load packages tasks"
   ansible.builtin.include_tasks:
     file: "packages.yml"
   when:
     - "hostvars[inventory_hostname]['dhcpd_install_package'] is defined"
     - "hostvars[inventory_hostname]['dhcpd_install_package'] == 'true'"
-- name: dhcpd | Load apparmor tasks
+- name: "dhcpd | Load apparmor tasks"
   ansible.builtin.include_tasks:
     file: "apparmor.yml"
   when:
     - "hostvars[inventory_hostname]['dhcpd_configure_apparmor'] is defined"
     - "hostvars[inventory_hostname]['dhcpd_configure_apparmor'] == 'true'"
-- name: dhcpd | Load deploy tasks
+- name: "dhcpd | Load deploy tasks"
   ansible.builtin.import_tasks:
     file: "deploy_dhcpd.yml"

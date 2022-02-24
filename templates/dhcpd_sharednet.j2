@@ -1,6 +1,6 @@
 {{ 'shared-network ' + n.name + ' {' }}
 {% if n.interface is defined and n.interface != '' %}
-{{ '  interface ' + '\"' + n.interface + '\";' }}
+{{ '  interface \"' + n.interface + '\";' }}
 {% endif %}
 {% for s in n.subnets %}
 {% if s.base is defined and s.base | ansible.netcommon.ipaddr() %}

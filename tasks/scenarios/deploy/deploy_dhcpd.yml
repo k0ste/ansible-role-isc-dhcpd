@@ -1,5 +1,5 @@
 ---
-- name: dhcpd | Deploy dhcpd.conf
+- name: "dhcpd | Deploy dhcpd.conf"
   ansible.builtin.template:
     src: "dhcpd.conf.j2"
     dest: "{{ hostvars[inventory_hostname]['dhcpd_conf_dest'] + '/' +
@@ -9,7 +9,7 @@
     mode: "0644"
     validate: "dhcpd -t -cf %s"
   notify: "Restart dhcpd"
-- name: dhcpd | Enable dhcpd
+- name: "dhcpd | Enable dhcpd"
   ansible.builtin.service:
     name: "{{ hostvars[inventory_hostname]['dhcpd_dhcpd_service'] }}"
     state: "started"

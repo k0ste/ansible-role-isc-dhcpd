@@ -7,7 +7,7 @@
    and hostvars[inventory_hostname]['dhcpd_add_deployed_timestamp'] == 'true' %}
 {{ '# Deployed at ' + ansible_date_time.date + ' ' + ansible_date_time.time }}
 {% endif %}
-{{ '# ' + 'Do not edit manually' }}
+{{ '# Do not edit manually' }}
 
 {% include 'dhcpd_omapi.j2' %}
 {% include 'dhcpd_common.j2' %}

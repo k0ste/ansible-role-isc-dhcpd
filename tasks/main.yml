@@ -1,11 +1,11 @@
 ---
-- name: dhcpd | Load validation scenarios
+- name: "dhcpd | Load validation scenarios"
   ansible.builtin.include_tasks:
     file: "scenarios/validation/main.yml"
   when:
     - "hostvars[inventory_hostname]['dhcpd_scenario'] is defined"
     - "hostvars[inventory_hostname]['dhcpd_scenario'] in ['validation', 'both']"
-- name: dhcpd | Load deploy scenarios
+- name: "dhcpd | Load deploy scenarios"
   ansible.builtin.include_tasks:
     file: "scenarios/deploy/main.yml"
   when:
