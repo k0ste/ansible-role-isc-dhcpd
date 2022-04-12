@@ -15,9 +15,8 @@
 {% if loop.first %}
 {{ '  option static-routes ' -}}
 {% endif %}
-{% if (hr.route is defined and hr.route | ansible.netcommon.ipaddr('host')) and
-      (hr.next_hop is defined and hr.next_hop |
-       ansible.netcommon.ipaddr('host')) %}
+{% if (hr.route is defined and hr.route | ansible.utils.ipaddr('host')) and
+  (hr.next_hop is defined and hr.next_hop | ansible.utils.ipaddr('host')) %}
 {{ hr.route + ' ' + hr.next_hop -}}
 {% endif %}
 {% if loop.last %}

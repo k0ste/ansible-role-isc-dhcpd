@@ -58,7 +58,7 @@
 {% if hostvars[inventory_hostname]['dhcpd_subnets'] is defined %}
 {% for s in hostvars[inventory_hostname]['dhcpd_subnets'] %}
 {# start_subnet, patch for jinja 2.9 #}
-{% if s.base is defined and s.base | ansible.netcommon.ipaddr('net') %}
+{% if s.base is defined and s.base | ansible.utils.ipaddr('net') %}
 {% include 'dhcpd_subnets.j2' %}
 {% if s.pools is defined %}
 {% for p in s.pools %}
@@ -80,7 +80,7 @@
    and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
 {% for s in hostvars[inventory_hostname]['dhcpd_global_subnets'] %}
 {# start_subnet, patch for jinja 2.9 #}
-{% if s.base is defined and s.base | ansible.netcommon.ipaddr('net') %}
+{% if s.base is defined and s.base | ansible.utils.ipaddr('net') %}
 {% include 'dhcpd_subnets.j2' %}
 {% if s.pools is defined %}
 {% for p in s.pools %}

@@ -1,10 +1,10 @@
-{{ 'subnet ' + s.base | ansible.netcommon.ipaddr('network') + ' netmask ' +
-    s.base | ansible.netcommon.ipaddr('netmask') + ' {' }}
+{{ 'subnet ' + s.base | ansible.utils.ipaddr('network') + ' netmask ' +
+    s.base | ansible.utils.ipaddr('netmask') + ' {' }}
 {% if s.interface is defined and s.interface != '' %}
 {{ '  ' ~ 'interface' ~ ' \"' ~ s.interface ~ '\";' }}
 {% endif %}
-{% if (s.range_start is defined and s.range_start | ansible.netcommon.ipaddr())
-   and (s.range_end is defined and s.range_end | ansible.netcommon.ipaddr()) %}
+{% if (s.range_start is defined and s.range_start | ansible.utils.ipaddr())
+   and (s.range_end is defined and s.range_end | ansible.utils.ipaddr()) %}
 {{ '  range ' + s.range_start + ' ' + s.range_end + ';' }}
 {% endif %}
 {% if s.routers is defined and s.routers != '' %}
@@ -15,8 +15,8 @@
 {% if loop.first %}
 {{ '  option static-routes ' -}}
 {% endif %}
-{% if (sr.route is defined and sr.route | ansible.netcommon.ipaddr('host')) and
-  (sr.next_hop is defined and sr.next_hop | ansible.netcommon.ipaddr('host')) %}
+{% if (sr.route is defined and sr.route | ansible.utils.ipaddr('host')) and
+  (sr.next_hop is defined and sr.next_hop | ansible.utils.ipaddr('host')) %}
 {{ sr.route + ' ' + sr.next_hop -}}
 {% endif %}
 {% if loop.last %}
@@ -27,7 +27,7 @@
 {% endfor %}
 {% endif %}
 {% if s.broadcast_address is defined and s.broadcast_address |
-  ansible.netcommon.ipaddr() %}
+  ansible.utils.ipaddr() %}
 {{ '  option broadcast-address ' + s.broadcast_address + ';' }}
 {% endif %}
 {% if s.domain_nameservers is defined and s.domain_nameservers != '' %}
