@@ -1,20 +1,9 @@
 ---
 - name: "dhcpd | Install the required packages in Redhat derivatives"
-  block:
-  - name: "dhcpd | Install the required packages for RedHat via yum"
-    ansible.builtin.yum:
-      name: "{{ hostvars[inventory_hostname]['dhcpd_server_package'] }}"
-      state: "present"
-      update_cache: "yes"
-    when:
-      - "hostvars[inventory_hostname]['ansible_pkg_mgr'] == 'yum'"
-  - name: "dhcpd | Install the required packages for RedHat via dnf"
-    ansible.builtin.dnf:
-      name: "{{ hostvars[inventory_hostname]['dhcpd_server_package'] }}"
-      state: "present"
-      update_cache: "yes"
-    when:
-      - "hostvars[inventory_hostname]['ansible_pkg_mgr'] == 'dnf'"
+  ansible.builtin.dnf:
+    name: "{{ hostvars[inventory_hostname]['dhcpd_server_package'] }}"
+    state: "present"
+    update_cache: "yes"
   when:
     - "hostvars[inventory_hostname]['ansible_os_family'] == 'RedHat'"
 - name: "dhcpd | Install the required packages in Debian derivatives"

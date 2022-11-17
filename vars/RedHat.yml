@@ -1,5 +1,5 @@
 ---
-dhcpd_server_package: 'dhcp'
+dhcpd_server_package: 'dhcp-server'
 dhcpd_conf_dest: '/etc/dhcp'
 dhcpd_dhcpd_conf: 'dhcpd.conf'
 dhcpd_dhcpd_service: 'dhcpd'
