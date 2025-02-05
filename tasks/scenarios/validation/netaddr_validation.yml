@@ -2,42 +2,54 @@
 - name: "dhcpd | Assert that fixed address is ip address"
   ansible.builtin.assert:
     that:
-      - "item.fixed_address | ansible.utils.ipaddr('host')"
-    msg: "{{ item.name ~ ' is not ipaddr: ' ~ item.fixed_address }}"
+      - "host['fixed_address'] | ansible.utils.ipaddr('host')"
+    fail_msg: "{{ '[' ~ host['name'] ~ '] is not ipaddr: ' ~
+      host['fixed_address'] }}"
+    success_msg: "{{ '[' ~ host['name'] ~ '] is ipaddr: ' ~
+      host['fixed_address'] }}"
     quiet: "true"
   loop: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
     community.general.json_query(\"[?name=='\" ~ vars['outer_item'] ~
     \"'].hosts\") | flatten(levels=1) }}"
   loop_control:
-    label: "{{ item.name }}"
+    loop_var: "host"
+    label: "{{ host['name'] }}"
   when:
-    - "item.fixed_address is defined"
-    - "item.fixed_address != ''"
+    - "host['fixed_address'] is defined"
+    - "host['fixed_address'] != ''"
 - name: "dhcpd | Assert that broadcast address is ip address"
   ansible.builtin.assert:
     that:
-      - "item.broadcast_address | ansible.utils.ipaddr('broadcast')"
-    msg: "{{ item.name ~ ' is not broadcast ipaddr: ' ~
-      item.broadcast_address }}"
+      - "host['broadcast_address'] | ansible.utils.ipaddr('broadcast')"
+    fail_msg: "{{ '[' ~ host['name'] ~ '] is not broadcast ipaddr: ' ~
+      host['broadcast_address'] }}"
+    success_msg: "{{ '[' ~ host['name'] ~ '] is broadcast ipaddr: ' ~
+      host['broadcast_address'] }}"
     quiet: "true"
   loop: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
     community.general.json_query(\"[?name=='\" ~ vars['outer_item'] ~
     \"'].hosts\") | flatten(levels=1) }}"
   loop_control:
-    label: "{{ item.name }}"
+    loop_var: "host"
+    label: "{{ host['name'] }}"
   when:
-    - "item.broadcast_address is defined"
-    - "item.broadcast_address != ''"
+    - "item['broadcast_address'] is defined"
+    - "item['broadcast_address'] != ''"
 - name: "dhcpd | Assert that mac address is hardware address in linux format"
   ansible.builtin.assert:
-    that: "item.mac_address | ansible.utils.hwaddr('linux')"
-    msg: "{{ item.name ~ ' is not maddr: ' ~ item.mac_address }}"
+    that:
+      - "host['mac_address'] | ansible.utils.hwaddr('linux')"
+    fail_msg: "{{ '[' ~ host['name'] ~ '] is not maddr: ' ~
+      host['mac_address'] }}"
+    success_msg: "{{ '[' ~ host['name'] ~ '] is maddr: ' ~
+      host['mac_address'] }}"
     quiet: "true"
   loop: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
     community.general.json_query(\"[?name=='\" ~ vars['outer_item'] ~
     \"'].hosts\") | flatten(levels=1) }}"
   loop_control:
-    label: "{{ item.name }}"
+    loop_var: "host"
+    label: "{{ host['name'] }}"
   when:
-    - "item.mac_address is defined"
-    - "item.mac_address != ''"
+    - "host['mac_address'] is defined"
+    - "host['mac_address'] != ''"

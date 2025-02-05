@@ -1,22 +1,22 @@
-{{ 'if ' + e.condition + ' {' }}
-{% if e.value is defined and e.value != '' %}
-{% if e.value is string %}
-{{ '    ' + e.value + ';' }}
-{% elif e.value is sequence %}
-{% for ev in e.value %}
+{{ 'if ' + e['condition'] + ' {' }}
+{% if e['value'] is defined and e['value'] != '' %}
+{% if e['value'] is string %}
+{{ '    ' + e['value'] + ';' }}
+{% elif e['value'] is sequence %}
+{% for ev in e['value'] %}
 {{ '    ' + ev + ';' }}
 {% endfor %}
 {% endif %}
 {% endif %}
-{% if e.elsif is defined and e.elsif != '' %}
-{% for eel in e.elsif %}
-{% if eel.condition is defined and eel.condition != '' %}
-{{ '  } elsif ' + eel.condition + ' {' }}
-{% if eel.value is defined and eel.value != '' %}
-{% if eel.value is string %}
-{{ '    ' + eel.value + ';' }}
-{% elif eel.value is sequence %}
-{% for eelv in eel.value %}
+{% if e['elsif'] is defined and e['elsif'] != '' %}
+{% for eel in e['elsif'] %}
+{% if eel['condition'] is defined and eel['condition'] != '' %}
+{{ '  } elsif ' + eel['condition'] + ' {' }}
+{% if eel['value'] is defined and eel['value'] != '' %}
+{% if eel['value'] is string %}
+{{ '    ' + eel['value'] + ';' }}
+{% elif eel['value'] is sequence %}
+{% for eelv in eel['value'] %}
 {{ '    ' + eelv + ';' }}
 {% endfor %}
 {% endif %}
@@ -24,14 +24,14 @@
 {% endif %}
 {% endfor %}
 {% endif %}
-{% if e.else is defined and e.else != '' %}
-{% for ee in e.else %}
+{% if e['else'] is defined and e['else'] != '' %}
+{% for ee in e['else'] %}
 {{ '  } else {'}}
-{% if ee.value is defined and ee.value != '' %}
-{% if ee.value is string %}
-{{ '    ' + ee.value + ';' }}
-{% elif ee.value is sequence %}
-{% for eev in ee.value %}
+{% if ee['value'] is defined and ee['value'] != '' %}
+{% if ee['value'] is string %}
+{{ '    ' + ee['value'] + ';' }}
+{% elif ee['value'] is sequence %}
+{% for eev in ee['value'] %}
 {{ '    ' + eev + ';' }}
 {% endfor %}
 {% endif %}

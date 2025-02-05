@@ -3,8 +3,8 @@
   ansible.builtin.stat:
     path: "{{ hostvars[inventory_hostname]['dhcpd_apparmor_dest'] }}"
   register: "apparmor_local"
-- name:
-    "dhcpd | Allow AppArmor access to temporary ansible files for validation"
+- name: "dhcpd | Allow AppArmor access to temporary ansible files for
+    validation"
   ansible.builtin.copy:
     src: "apparmor/usr.sbin.dhcpd"
     dest: "/etc/apparmor.d/local/usr.sbin.dhcpd"
@@ -12,7 +12,7 @@
     group: "root"
     mode: "0644"
   when:
-    - "apparmor_local.stat.exists"
+    - "apparmor_local['stat']['exists']"
   notify:
     - "Restart apparmor"
 - name: "dhcpd | Enable apparmor"
@@ -23,4 +23,5 @@
   when:
     - "hostvars[inventory_hostname]['dhcpd_apparmor_enable'] is defined"
     - "hostvars[inventory_hostname]['dhcpd_apparmor_enable'] == 'true'"
-- meta: "flush_handlers"
+- name: "dhcpd | Flush event handlers"
+  ansible.builtin.meta: "flush_handlers"

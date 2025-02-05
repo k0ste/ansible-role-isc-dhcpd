@@ -1,77 +1,78 @@
-{{ 'subnet ' + s.base | ansible.utils.ipaddr('network') + ' netmask ' +
-    s.base | ansible.utils.ipaddr('netmask') + ' {' }}
-{% if s.interface is defined and s.interface != '' %}
-{{ '  ' ~ 'interface' ~ ' \"' ~ s.interface ~ '\";' }}
+{{ 'subnet ' + s['base'] | ansible.utils.ipaddr('network') + ' netmask ' +
+    s['base'] | ansible.utils.ipaddr('netmask') + ' {' }}
+{% if s['interface'] is defined and s['interface'] != '' %}
+{{ '  ' ~ 'interface' ~ ' \"' ~ s['interface'] ~ '\";' }}
 {% endif %}
-{% if (s.range_start is defined and s.range_start | ansible.utils.ipaddr())
-   and (s.range_end is defined and s.range_end | ansible.utils.ipaddr()) %}
-{{ '  range ' + s.range_start + ' ' + s.range_end + ';' }}
+{% if (s.range_start is defined and s['range_start'] | ansible.utils.ipaddr())
+   and (s.range_end is defined and s['range_end'] | ansible.utils.ipaddr()) %}
+{{ '  range ' + s['range_start'] + ' ' + s['range_end'] + ';' }}
 {% endif %}
-{% if s.routers is defined and s.routers != '' %}
-{{ '  option routers ' + s.routers + ';' }}
+{% if s['routers'] is defined and s['routers'] != '' %}
+{{ '  option routers ' + s['routers'] + ';' }}
 {% endif %}
-{% if s.static_routes is defined and s.static_routes != '' %}
-{% for sr in s.static_routes %}
+{% if s['static_routes'] is defined and s['static_routes'] != '' %}
+{% for sr in s['static_routes'] %}
 {% if loop.first %}
 {{ '  option static-routes ' -}}
 {% endif %}
-{% if (sr.route is defined and sr.route | ansible.utils.ipaddr('host')) and
-  (sr.next_hop is defined and sr.next_hop | ansible.utils.ipaddr('host')) %}
-{{ sr.route + ' ' + sr.next_hop -}}
+{% if (sr.route is defined and sr['route'] | ansible.utils.ipaddr('host')) and
+  (sr.next_hop is defined and sr['next_hop'] | ansible.utils.ipaddr('host')) %}
+{{ sr['route'] + ' ' + sr['next_hop'] -}}
 {% endif %}
-{% if loop.last %}
+{% if loop['last'] %}
 {{ ';' }}
 {% else %}
 {{ ', ' -}}
 {% endif %}
 {% endfor %}
 {% endif %}
-{% if s.broadcast_address is defined and s.broadcast_address |
+{% if s['broadcast_address'] is defined and s['broadcast_address'] |
   ansible.utils.ipaddr() %}
-{{ '  option broadcast-address ' + s.broadcast_address + ';' }}
+{{ '  option broadcast-address ' + s['broadcast_address'] + ';' }}
 {% endif %}
-{% if s.domain_nameservers is defined and s.domain_nameservers != '' %}
-{% if s.domain_nameservers is string %}
-{{ '  option domain-name-servers ' + s.domain_nameservers + ';' }}
-{% elif s.ntp_servers is sequence %}
-{{ '  option domain-name-servers ' + s.domain_nameservers | join(', ') + ';' }}
-{% endif %}
-{% endif %}
-{% if s.domain_name is defined and s.domain_name != '' %}
-{{ '  option domain-name \"' + s.domain_name + '\";' }}
-{% endif %}
-{% if s.ntp_servers is defined and s.ntp_servers != '' %}
-{% if s.ntp_servers is string %}
-{{ '  option ntp-servers ' + s.ntp_servers + ';' }}
-{% elif s.ntp_servers is sequence %}
-{{ '  option ntp-servers ' + s.ntp_servers | join(', ') + ';' }}
+{% if s['domain_nameservers'] is defined and s['domain_nameservers'] != '' %}
+{% if s['domain_nameservers'] is string %}
+{{ '  option domain-name-servers ' + s['domain_nameservers'] + ';' }}
+{% elif s['ntp_servers'] is sequence %}
+{{ '  option domain-name-servers ' + (s['domain_nameservers'] |
+  join(', ')) + ';' }}
 {% endif %}
 {% endif %}
-{% if s.interface_mtu is defined and s.interface_mtu != '' %}
-{{ '  option interface-mtu ' ~ s.interface_mtu ~ ';' }}
+{% if s['domain_name'] is defined and s['domain_name'] != '' %}
+{{ '  option domain-name \"' + s['domain_name'] + '\";' }}
 {% endif %}
-{% if s.default_lease_time is defined and s.default_lease_time != '' %}
-{{ '  default-lease-time ' ~ s.default_lease_time ~ ';' }}
+{% if s['ntp_servers'] is defined and s['ntp_servers'] != '' %}
+{% if s['ntp_servers'] is string %}
+{{ '  option ntp-servers ' + s['ntp_servers'] + ';' }}
+{% elif s['ntp_servers'] is sequence %}
+{{ '  option ntp-servers ' + s['ntp_servers'] | join(', ') + ';' }}
 {% endif %}
-{% if s.max_lease_time is defined and s.max_lease_time != '' %}
-{{ '  max-lease-time ' ~ s.max_lease_time ~ ';' }}
 {% endif %}
-{% if s.unknown_clients is defined and
-      s.unknown_clients in ['allow', 'deny', 'ignore'] %}
-{{ '  ' + s.unknown_clients + ' unknown-clients;' }}
+{% if s['interface_mtu'] is defined and s['interface_mtu'] != '' %}
+{{ '  option interface-mtu ' ~ s['interface_mtu'] ~ ';' }}
 {% endif %}
-{% if s.get_lease_hostnames is defined and
-      s.get_lease_hostnames in ['true', 'false'] %}
-{{ '  get-lease-hostnames ' + s.get_lease_hostnames + ';' }}
+{% if s['default_lease_time'] is defined and s['default_lease_time'] != '' %}
+{{ '  default-lease-time ' ~ s['default_lease_time'] ~ ';' }}
 {% endif %}
-{% if s.filename is defined and s.filename != '' %}
-{{ '  filename \"' ~ s.filename ~ '\";' }}
+{% if s['max_lease_time'] is defined and s['max_lease_time'] != '' %}
+{{ '  max-lease-time ' ~ s['max_lease_time'] ~ ';' }}
 {% endif %}
-{% if s.next_server is defined and s.next_server != '' %}
-{{ '  next-server ' ~ s.next_server ~ ';' }}
+{% if s['unknown_clients'] is defined and
+      s['unknown_clients'] in ['allow', 'deny', 'ignore'] %}
+{{ '  ' + s['unknown_clients'] + ' unknown-clients;' }}
 {% endif %}
-{% if s.eval_if is defined and s.eval_if != '' %}
-{% for e in s.eval_if %}
+{% if s['get_lease_hostnames'] is defined and
+      s['get_lease_hostnames'] in ['true', 'false'] %}
+{{ '  get-lease-hostnames ' + s['get_lease_hostnames'] + ';' }}
+{% endif %}
+{% if s['filename'] is defined and s['filename'] != '' %}
+{{ '  filename \"' ~ s['filename'] ~ '\";' }}
+{% endif %}
+{% if s['next_server'] is defined and s['next_server'] != '' %}
+{{ '  next-server ' ~ s['next_server'] ~ ';' }}
+{% endif %}
+{% if s['eval_if'] is defined and s['eval_if'] != '' %}
+{% for e in s['eval_if'] %}
 {{ '  ' }}{% include 'dhcpd_eval_if.j2' %}
 {% endfor %}
 {% endif %}

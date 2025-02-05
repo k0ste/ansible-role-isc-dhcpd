@@ -1,32 +1,43 @@
 ---
 - name: "dhcpd | Assert that fixed address is ip address"
   ansible.builtin.assert:
-    that: "outer_item.fixed_address | ansible.utils.ipaddr('host')"
-    msg: "{{ outer_item.name ~ ' is not ipaddr: ' ~ outer_item.fixed_address }}"
+    that:
+      - "outer_item['fixed_address'] | ansible.utils.ipaddr('host')"
+    fail_msg: "{{ '[' ~ outer_item['name'] ~ '] is not ipaddr: ' ~
+      outer_item['fixed_address'] }}"
+    success_msg: "{{ '[' ~ outer_item['name'] ~ '] is ipaddr: ' +
+      outer_item['fixed_address'] }}"
     quiet: "true"
   loop_control:
-    label: "{{ outer_item.name }}"
+    label: "{{ outer_item['name'] }}"
   when:
-    - "outer_item.fixed_address is defined"
-    - "outer_item.fixed_address != ''"
+    - "outer_item['fixed_address'] is defined"
+    - "outer_item['fixed_address'] != ''"
 - name: "dhcpd | Assert that broadcast address is ip address"
   ansible.builtin.assert:
-    that: "outer_item.broadcast_address | ansible.utils.ipaddr('broadcast')"
-    msg: "{{ outer_item.name ~ ' is not broadcast ipaddr: ' ~
-      outer_item.broadcast_address }}"
+    that:
+      - "outer_item['broadcast_address'] | ansible.utils.ipaddr('broadcast')"
+    fail_msg: "{{ '[' ~ outer_item['name'] ~ '] is not broadcast ipaddr: ' ~
+      outer_item['broadcast_address'] }}"
+    success_msg: "{{ '[' ~ outer_item['name'] ~ '] is broadcast ipaddr: ' +
+      outer_item['broadcast_address'] }}"
     quiet: "true"
   loop_control:
-    label: "{{ outer_item.name }}"
+    label: "{{ outer_item['name'] }}"
   when:
-    - "outer_item.broadcast_address is defined"
-    - "outer_item.broadcast_address != ''"
+    - "outer_item['broadcast_address'] is defined"
+    - "outer_item['broadcast_address'] != ''"
 - name: "dhcpd | Assert that mac address is hardware address in linux format"
   ansible.builtin.assert:
-    that: "outer_item.mac_address | ansible.utils.hwaddr('linux')"
-    msg: "{{ outer_item.name ~ ' is not maddr: ' ~ outer_item.mac_address }}"
+    that:
+      - "outer_item['mac_address'] | ansible.utils.hwaddr('linux')"
+    fail_msg: "{{ '[' ~ outer_item['name'] ~ '] is not maddr: ' ~
+      outer_item['mac_address'] }}"
+    success_msg: "{{ '[' ~ outer_item['name'] ~ '] is maddr: ' +
+      outer_item['mac_address'] }}"
     quiet: "true"
   loop_control:
-    label: "{{ outer_item.name }}"
+    label: "{{ outer_item['name'] }}"
   when:
-    - "outer_item.mac_address is defined"
-    - "outer_item.mac_address != ''"
+    - "outer_item['mac_address'] is defined"
+    - "outer_item['mac_address'] != ''"

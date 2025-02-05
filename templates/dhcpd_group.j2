@@ -1,29 +1,30 @@
 {{ 'group {' }}
-{% if g.next_server is defined and g.next_server != '' %}
-{{ '  ' ~ 'next-server ' ~ g.next_server ~ ';' }}
+{% if g['next_server'] is defined and g['next_server'] != '' %}
+{{ '  ' ~ 'next-server ' ~ g['next_server'] ~ ';' }}
 {% endif %}
-{% if g.eval_if is defined and g.eval_if != '' %}
-{% for e in g.eval_if %}
+{% if g['eval_if'] is defined and g['eval_if'] != '' %}
+{% for e in g['eval_if'] %}
 {{ '  ' }}{% include 'dhcpd_eval_if.j2' %}
 {% endfor %}
 {% endif %}
-{% if g.options is defined and g.options != '' %}
-{% for o in g.options %}
+{% if g['options'] is defined and g['options'] != '' %}
+{% for o in g['options'] %}
 {{ '  ' }}{% include 'dhcpd_options.j2' %}
 {% endfor %}
 {% endif %}
-{% if g.filename is defined and g.filename != '' %}
-{{ '  filename \"' ~ g.filename ~ '\";' }}
+{% if g['filename'] is defined and g['filename'] != '' %}
+{{ '  filename \"' ~ g['filename'] ~ '\";' }}
 {% endif %}
-{% if g.get_lease_hostnames is defined and
-      g.get_lease_hostnames in ['true', 'false'] %}
-{{ '  get-lease-hostnames ' + g.get_lease_hostnames + ';' }}
+{% if g['get_lease_hostnames'] is defined and
+  g['get_lease_hostnames'] in ['true', 'false'] %}
+{{ '  get-lease-hostnames ' + g['get_lease_hostnames'] + ';' }}
 {% endif %}
-{% if g.hosts is defined %}
-{% for h in g.hosts %}
+{% if g['hosts'] is defined %}
+{% for h in g['hosts'] %}
 {% include 'dhcpd_host.j2' %}
-{% if g.host_name_from_name is defined and g.host_name_from_name == 'true' %}
-{{ '  option host-name \"' ~ h.name ~ '\";' }}
+{% if g['host_name_from_name'] is defined and
+  g['host_name_from_name'] == 'true' %}
+{{ '  option host-name \"' ~ h['name'] ~ '\";' }}
 {% endif %}
 {{ '}' }}
 {% endfor %}

@@ -1,5 +1,5 @@
-{% if o.equal_sign is defined and o.equal_sign == 'true' %}
-{{ o.key ~ ' = ' ~ o.value + ';' }}
+{% if o['equal_sign'] is defined and o['equal_sign'] == 'true' %}
+{{ o['key'] ~ ' = ' ~ o['value'] + ';' }}
 {% else %}
-{{ o.key ~ ' ' ~ o.value + ';' }}
+{{ o['key'] ~ ' ' ~ o['value'] + ';' }}
 {% endif %}

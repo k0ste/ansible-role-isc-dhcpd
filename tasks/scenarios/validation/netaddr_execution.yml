@@ -1,10 +1,6 @@
 ---
-- ansible.builtin.debug:
-    msg: "Start 'dhcpd_groups' validation"
-  when:
-    - "vars['dhcpd_group_names'] is defined"
-    - "vars['dhcpd_group_names'] != []"
-- ansible.builtin.include_tasks:
+- name: "dhcpd | Start 'dhcpd_groups' validation"
+  ansible.builtin.include_tasks:
     file: "netaddr_validation.yml"
   loop: "{{ vars['dhcpd_group_names'] | flatten(levels=1) }}"
   loop_control:
@@ -12,12 +8,8 @@
   when:
     - "vars['dhcpd_group_names'] is defined"
     - "vars['dhcpd_group_names'] != []"
-- ansible.builtin.debug:
-    msg: "Start 'dhcpd_hosts' validation"
-  when:
-    - "hostvars[inventory_hostname]['dhcpd_hosts'] is defined"
-    - "hostvars[inventory_hostname]['dhcpd_hosts'] != ''"
-- ansible.builtin.include_tasks:
+- name: "dhcpd | Start 'dhcpd_hosts' validation"
+  ansible.builtin.include_tasks:
     file: "netaddr_validation_simple.yml"
   loop: "{{ hostvars[inventory_hostname]['dhcpd_hosts'] | flatten(levels=1) }}"
   loop_control:
@@ -25,15 +17,11 @@
   when:
     - "hostvars[inventory_hostname]['dhcpd_hosts'] is defined"
     - "hostvars[inventory_hostname]['dhcpd_hosts'] != ''"
-- ansible.builtin.debug:
-    msg: "Start 'dhcpd_global_hosts' validation"
-  when:
-    - "hostvars[inventory_hostname]['dhcpd_global_hosts'] is defined"
-    - "hostvars[inventory_hostname]['dhcpd_global_hosts'] != ''"
-- ansible.builtin.include_tasks:
+- name: "dhcpd | Start 'dhcpd_global_hosts' validation"
+  ansible.builtin.include_tasks:
     file: "netaddr_validation_simple.yml"
-  loop: "{{
-    hostvars[inventory_hostname]['dhcpd_global_hosts'] | flatten(levels=1) }}"
+  loop: "{{ hostvars[inventory_hostname]['dhcpd_global_hosts'] |
+    flatten(levels=1) }}"
   loop_control:
     loop_var: "outer_item"
   when:

@@ -13,7 +13,7 @@
 {% include 'dhcpd_common.j2' %}
 {% if hostvars[inventory_hostname]['dhcpd_common_options'] is defined %}
 {% for o in hostvars[inventory_hostname]['dhcpd_common_options'] %}
-{{ 'option ' ~ o.name + ' code ' + o.code ~ ' = ' ~ o.type ~ ';' }}
+{{ 'option ' ~ o['name'] + ' code ' + o['code'] ~ ' = ' ~ o['type'] ~ ';' }}
 {% endfor %}
 {% endif %}
 {% include 'dhcpd_pxe.j2' %}
@@ -58,15 +58,15 @@
 {% if hostvars[inventory_hostname]['dhcpd_subnets'] is defined %}
 {% for s in hostvars[inventory_hostname]['dhcpd_subnets'] %}
 {# start_subnet, patch for jinja 2.9 #}
-{% if s.base is defined and s.base | ansible.utils.ipaddr('net') %}
+{% if s['base'] is defined and s['base'] | ansible.utils.ipaddr('net') %}
 {% include 'dhcpd_subnets.j2' %}
-{% if s.pools is defined %}
-{% for p in s.pools %}
+{% if s['pools'] is defined %}
+{% for p in s['pools'] %}
 {% include 'dhcpd_pool.j2' %}
 {% endfor %}
 {% endif %}
-{% if s.parameters is defined %}
-{% for p in s.parameters %}
+{% if s['parameters'] is defined %}
+{% for p in s['parameters'] %}
 {{ '  ' + p + ';' }}
 {% endfor %}
 {% endif %}
@@ -80,15 +80,15 @@
    and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
 {% for s in hostvars[inventory_hostname]['dhcpd_global_subnets'] %}
 {# start_subnet, patch for jinja 2.9 #}
-{% if s.base is defined and s.base | ansible.utils.ipaddr('net') %}
+{% if s['base'] is defined and s['base'] | ansible.utils.ipaddr('net') %}
 {% include 'dhcpd_subnets.j2' %}
-{% if s.pools is defined %}
-{% for p in s.pools %}
+{% if s['pools'] is defined %}
+{% for p in s['pools'] %}
 {% include 'dhcpd_pool.j2' %}
 {% endfor %}
 {% endif %}
-{% if s.parameters is defined %}
-{% for p in s.parameters %}
+{% if s['parameters'] is defined %}
+{% for p in s['parameters'] %}
 {{ '  ' + p + ';' }}
 {% endfor %}
 {% endif %}

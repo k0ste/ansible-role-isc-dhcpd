@@ -21,17 +21,17 @@
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_ddns_keys'] is defined %}
 {% for k in hostvars[inventory_hostname]['dhcpd_ddns_keys'] %}
-{{ 'key ' + k.name + ' {' }}
+{{ 'key ' + k['name'] + ' {' }}
 {{ '  algorithm hmac-md5;' }}
-{{ '  secret ' + k.value + ';' }}
+{{ '  secret ' + k['value'] + ';' }}
 {{ '}' }}
 {% endfor %}
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_ddns_zones'] is defined %}
 {% for z in hostvars[inventory_hostname]['dhcpd_ddns_zones'] %}
-{{ 'zone ' + z.name + '. {' }}
-{{ '  primary ' + z.primary + ';' }}
-{{ '  key ' + z.key + ';' }}
+{{ 'zone ' + z['name'] + '. {' }}
+{{ '  primary ' + z['primary'] + ';' }}
+{{ '  key ' + z['key'] + ';' }}
 {{ '}' }}
 {% endfor %}
 {% endif %}

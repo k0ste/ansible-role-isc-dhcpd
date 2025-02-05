@@ -1,60 +1,60 @@
-{{ 'host ' + h.name + ' {' }}
-{{ '  hardware ethernet ' + h.mac_address + ';' }}
+{{ 'host ' + h['name'] + ' {' }}
+{{ '  hardware ethernet ' + h['mac_address'] + ';' }}
 {% if hostvars[inventory_hostname]['dhcpd_ddns_manage'] is defined and
       hostvars[inventory_hostname]['dhcpd_ddns_manage'] == 'true' %}
-{{ '  ddns-hostname ' + h.name + ';' }}
+{{ '  ddns-hostname ' + h['name'] + ';' }}
 {% endif %}
-{% if h.fixed_address is defined and h.fixed_address != '' %}
-{{ '  fixed-address ' + h.fixed_address + ';' }}
+{% if h['fixed_address'] is defined and h['fixed_address'] != '' %}
+{{ '  fixed-address ' + h['fixed_address'] + ';' }}
 {% endif %}
-{% if h.routers is defined and h.routers != '' %}
-{{ '  option routers ' + h.routers + ';' }}
+{% if h['routers'] is defined and h['routers'] != '' %}
+{{ '  option routers ' + h['routers'] + ';' }}
 {% endif %}
-{% if h.static_routes is defined and h.static_routes != '' %}
-{% for hr in h.static_routes %}
-{% if loop.first %}
+{% if h['static_routes'] is defined and h['static_routes'] != '' %}
+{% for hr in h['static_routes'] %}
+{% if loop['first'] %}
 {{ '  option static-routes ' -}}
 {% endif %}
-{% if (hr.route is defined and hr.route | ansible.utils.ipaddr('host')) and
-  (hr.next_hop is defined and hr.next_hop | ansible.utils.ipaddr('host')) %}
-{{ hr.route + ' ' + hr.next_hop -}}
+{% if (hr.route is defined and hr['route'] | ansible.utils.ipaddr('host')) and
+  (hr.next_hop is defined and hr['next_hop'] | ansible.utils.ipaddr('host')) %}
+{{ hr['route'] + ' ' + hr['next_hop'] -}}
 {% endif %}
-{% if loop.last %}
+{% if loop['last'] %}
 {{ ';' }}
 {% else %}
 {{ ', ' -}}
 {% endif %}
 {% endfor %}
 {% endif %}
-{% if h.broadcast_address is defined and h.broadcast_address != '' %}
-{{ '  option broadcast-address ' + h.broadcast_address + ';' }}
+{% if h['broadcast_address'] is defined and h['broadcast_address'] != '' %}
+{{ '  option broadcast-address ' + h['broadcast_address'] + ';' }}
 {% endif %}
-{% if h.domain_nameservers is defined and h.domain_nameservers != '' %}
-{{ '  option domain-name-servers ' + h.domain_nameservers + ';' }}
+{% if h['domain_nameservers'] is defined and h['domain_nameservers'] != '' %}
+{{ '  option domain-name-servers ' + h['domain_nameservers'] + ';' }}
 {% endif %}
-{% if h.get_lease_hostnames is defined and
-      h.get_lease_hostnames in ['true', 'false'] %}
-{{ '  get-lease-hostnames ' + h.get_lease_hostnames + ';' }}
+{% if h['get_lease_hostnames'] is defined and
+      h['get_lease_hostnames'] in ['true', 'false'] %}
+{{ '  get-lease-hostnames ' + h['get_lease_hostnames'] + ';' }}
 {% endif %}
-{% if h.domain_name is defined and h.domain_name != '' %}
-{{ '  option domain-name \"' + h.domain_name + '\";' }}
+{% if h['domain_name'] is defined and h['domain_name'] != '' %}
+{{ '  option domain-name \"' + h['domain_name'] + '\";' }}
 {% endif %}
-{% if h.host_name is defined and h.host_name != '' %}
-{{ '  option host-name \"' ~ h.host_name ~ '\";' }}
+{% if h['host_name'] is defined and h['host_name'] != '' %}
+{{ '  option host-name \"' ~ h['host_name'] ~ '\";' }}
 {% endif %}
-{% if h.default_lease_time is defined and h.default_lease_time != '' %}
-{{ '  default-lease-time ' ~ h.default_lease_time ~ ';' }}
+{% if h['default_lease_time'] is defined and h['default_lease_time'] != '' %}
+{{ '  default-lease-time ' ~ h['default_lease_time'] ~ ';' }}
 {% endif %}
-{% if h.max_lease_time is defined and h.max_lease_time != '' %}
-{{ '  max-lease-time ' ~ h.max_lease_time ~ ';' }}
+{% if h['max_lease_time'] is defined and h['max_lease_time'] != '' %}
+{{ '  max-lease-time ' ~ h['max_lease_time'] ~ ';' }}
 {% endif %}
-{% if h.eval_if is defined and h.eval_if != '' %}
-{% for e in h.eval_if %}
+{% if h['eval_if'] is defined and h['eval_if'] != '' %}
+{% for e in h['eval_if'] %}
 {{ '  ' }}{% include 'dhcpd_eval_if.j2' %}
 {% endfor %}
 {% endif %}
-{% if h.options is defined and h.options != '' %}
-{% for o in h.options %}
+{% if h['options'] is defined and h['options'] != '' %}
+{% for o in h['options'] %}
 {{ '  ' }}{% include 'dhcpd_options.j2' %}
 {% endfor %}
 {% endif %}
