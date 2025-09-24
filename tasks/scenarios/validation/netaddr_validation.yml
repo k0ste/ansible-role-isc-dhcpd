@@ -2,7 +2,8 @@
 - name: "dhcpd | Assert that fixed address is ip address"
   ansible.builtin.assert:
     that:
-      - "host['fixed_address'] | ansible.utils.ipaddr('host')"
+      - "(host['fixed_address'] |
+        ansible.utils.ipaddr('host')) is ansible.utils.ip"
     fail_msg: "{{ '[' ~ host['name'] ~ '] is not ipaddr: ' ~
       host['fixed_address'] }}"
     success_msg: "{{ '[' ~ host['name'] ~ '] is ipaddr: ' ~
@@ -16,11 +17,14 @@
     label: "{{ host['name'] }}"
   when:
     - "host['fixed_address'] is defined"
+    - "host['fixed_address'] != []"
     - "host['fixed_address'] != ''"
+    - "host['fixed_address'] != None"
 - name: "dhcpd | Assert that broadcast address is ip address"
   ansible.builtin.assert:
     that:
-      - "host['broadcast_address'] | ansible.utils.ipaddr('broadcast')"
+      - "(host['broadcast_address'] |
+        ansible.utils.ipaddr('broadcast')) is ansible.utils.ip()"
     fail_msg: "{{ '[' ~ host['name'] ~ '] is not broadcast ipaddr: ' ~
       host['broadcast_address'] }}"
     success_msg: "{{ '[' ~ host['name'] ~ '] is broadcast ipaddr: ' ~
@@ -33,12 +37,15 @@
     loop_var: "host"
     label: "{{ host['name'] }}"
   when:
-    - "item['broadcast_address'] is defined"
-    - "item['broadcast_address'] != ''"
+    - "host['broadcast_address'] is defined"
+    - "host['broadcast_address'] != []"
+    - "host['broadcast_address'] != ''"
+    - "host['broadcast_address'] != None"
 - name: "dhcpd | Assert that mac address is hardware address in linux format"
   ansible.builtin.assert:
     that:
-      - "host['mac_address'] | ansible.utils.hwaddr('linux')"
+      - "(host['mac_address'] |
+        ansible.utils.hwaddr('linux')) is ansible.utils.mac()"
     fail_msg: "{{ '[' ~ host['name'] ~ '] is not maddr: ' ~
       host['mac_address'] }}"
     success_msg: "{{ '[' ~ host['name'] ~ '] is maddr: ' ~
@@ -52,4 +59,6 @@
     label: "{{ host['name'] }}"
   when:
     - "host['mac_address'] is defined"
+    - "host['mac_address'] != []"
     - "host['mac_address'] != ''"
+    - "host['mac_address'] != None"

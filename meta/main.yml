@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: "isc-dhcpd"
+  role_name: "isc_dhcpd"
   namespace: "none"
   author: "Konstantin Shalygin <k0ste@k0ste.ru>"
   issue_tracker_url: "https://github.com/k0ste/ansible-role-isc-dhcpd"

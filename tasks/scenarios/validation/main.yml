@@ -4,7 +4,7 @@
     data:
       dhcpd_validation:
         status: "In Progress"
-        start: "{{ lookup('pipe', 'date +\"%a %b %d %H:%M:%S %Z %Y\"') }}"
+        start: "{{ '%a %b %d %H:%M:%S %Z %Y' | ansible.builtin.strftime() }}"
 - name: "dhcpd | Set facts about dhcpd group names"
   ansible.builtin.set_fact:
     dhcpd_group_names: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
@@ -17,4 +17,4 @@
     data:
       dhcpd_validation:
         status: "Complete"
-        end: "{{ lookup('pipe', 'date +\"%a %b %d %H:%M:%S %Z %Y\"') }}"
+        end: "{{ '%a %b %d %H:%M:%S %Z %Y' | ansible.builtin.strftime() }}"

@@ -5,7 +5,8 @@
 {% endif %}
 {% if hostvars[inventory_hostname]['dhcpd_add_deployed_timestamp'] is defined
    and hostvars[inventory_hostname]['dhcpd_add_deployed_timestamp'] == 'true' %}
-{{ '# Deployed at ' + ansible_date_time.date + ' ' + ansible_date_time.time }}
+{{ '# Deployed at ' + ansible_date_time['date'] + ' ' +
+  ansible_date_time['time'] }}
 {% endif %}
 {{ '# Do not edit manually' }}
 
