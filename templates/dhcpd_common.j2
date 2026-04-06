@@ -1,47 +1,47 @@
-{% if hostvars[inventory_hostname]['dhcpd_common_unknown_clients'] is defined
-  and hostvars[inventory_hostname]['dhcpd_common_unknown_clients'] in
-      ['allow', 'deny', 'ignore'] %}
-{{ hostvars[inventory_hostname]['dhcpd_common_unknown_clients'] + ' ' +
-   'unknown-clients;' }}
+{% if lookup('ansible.builtin.vars', 'dhcpd_common_unknown_clients',
+  default='') in ['allow', 'deny', 'ignore'] %}
+{{ lookup('ansible.builtin.vars', 'dhcpd_common_unknown_clients') +
+  ' unknown-clients;' }}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_common_bootp'] is defined and
-      hostvars[inventory_hostname]['dhcpd_common_bootp'] in
-      ['allow', 'deny', 'ignore'] %}
-{{ hostvars[inventory_hostname]['dhcpd_common_bootp'] + ' ' + 'bootp;' }}
+{% if lookup('ansible.builtin.vars', 'dhcpd_common_bootp', default='') in
+  ['allow', 'deny', 'ignore'] %}
+{{ lookup('ansible.builtin.vars', 'dhcpd_common_bootp') + ' bootp;' }}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_common_duplicates'] is defined and
-      hostvars[inventory_hostname]['dhcpd_common_duplicates'] in
-      ['allow', 'deny'] %}
-{{ hostvars[inventory_hostname]['dhcpd_common_duplicates'] + ' ' +
-   'duplicates;' }}
+{% if lookup('ansible.builtin.vars', 'dhcpd_common_duplicates', default='')
+  in ['allow', 'deny'] %}
+{{ lookup('ansible.builtin.vars', 'dhcpd_common_duplicates') +
+  ' duplicates;' }}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_common_leasequery'] is defined and
-      hostvars[inventory_hostname]['dhcpd_common_leasequery'] in
-      ['allow', 'deny'] %}
-{{ hostvars[inventory_hostname]['dhcpd_common_leasequery'] + ' ' +
-   'leasequery;' }}
+{% if lookup('ansible.builtin.vars', 'dhcpd_common_leasequery', default='')
+  in ['allow', 'deny'] %}
+{{ lookup('ansible.builtin.vars', 'dhcpd_common_leasequery') + ' leasequery;' }}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_common_domain'] is defined %}
-{{ 'option domain-name \"' +
-   hostvars[inventory_hostname]['dhcpd_common_domain'] + '\";' }}
+{% if lookup('ansible.builtin.vars', 'dhcpd_common_domain', default='')
+  not in ['', [], '[]', None]%}
+{{ 'option domain-name \"' + lookup('ansible.builtin.vars',
+  'dhcpd_common_domain') + '\";' }}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_common_nameservers'] is defined %}
-{{ 'option domain-name-servers \"' +
-   hostvars[inventory_hostname]['dhcpd_common_nameservers'] + '\";' }}
+{% if lookup('ansible.builtin.vars', 'dhcpd_common_nameservers', default='')
+  not in ['', [], '[]', None] %}
+{{ 'option domain-name-servers \"' + lookup('ansible.builtin.vars',
+  'dhcpd_common_nameservers') + '\";' }}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_common_default_lease_time'] is
-   defined %}
-{{ 'default-lease-time ' ~
-   hostvars[inventory_hostname]['dhcpd_common_default_lease_time'] ~ ';' }}
+{% if lookup('ansible.builtin.vars', 'dhcpd_common_default_lease_time',
+  default='') not in ['', [], '[]', None] %}
+{{ 'default-lease-time ' ~ lookup('ansible.builtin.vars',
+  'dhcpd_common_default_lease_time') ~ ';' }}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_common_max_lease_time'] is defined %}
-{{ 'max-lease-time ' ~
-   hostvars[inventory_hostname]['dhcpd_common_max_lease_time'] ~ ';' }}
+{% if lookup('ansible.builtin.vars', 'dhcpd_common_max_lease_time', default='')
+  not in ['', [], '[]', None] %}
+{{ 'max-lease-time ' ~ lookup('ansible.builtin.vars',
+  'dhcpd_common_max_lease_time') ~ ';' }}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_common_authoritative'] is defined %}
+{% if lookup('ansible.builtin.vars', 'dhcpd_common_authoritative', default='')
+  not in ['', [], '[]', None] %}
 {{ 'authoritative;' }}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_common_log_facility'] is defined %}
-{{ 'log-facility ' +
-   hostvars[inventory_hostname]['dhcpd_common_log_facility'] + ';' }}
+{% if lookup('ansible.builtin.vars', 'dhcpd_common_log_facility', default='')
+  not in ['', [], '[]', None] %}
+{{ 'log-facility ' + lookup('ansible.builtin.vars',
+  'dhcpd_common_log_facility') + ';' }}
 {% endif %}

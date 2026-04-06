@@ -1,63 +1,68 @@
-{{ '## ' + hostvars[inventory_hostname]['dhcpd_dhcpd_conf'] }}
-{% if hostvars[inventory_hostname]['dhcpd_use_ansible_managed'] is defined
-   and hostvars[inventory_hostname]['dhcpd_use_ansible_managed'] == 'true' %}
+{{ '## ' + lookup('ansible.builtin.vars', 'dhcpd_dhcpd_conf') }}
+{% if lookup('ansible.builtin.vars', 'dhcpd_use_ansible_managed',
+  default='') == 'true' %}
 {{ '# ' + ansible_managed }}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_add_deployed_timestamp'] is defined
-   and hostvars[inventory_hostname]['dhcpd_add_deployed_timestamp'] == 'true' %}
-{{ '# Deployed at ' + ansible_date_time['date'] + ' ' +
-  ansible_date_time['time'] }}
+{% if lookup('ansible.builtin.vars', 'dhcpd_add_deployed_timestamp',
+  default='') == 'true' %}
+{{ '# Deployed at ' + (template_mtime | string) }}
 {% endif %}
 {{ '# Do not edit manually' }}
 
 {% include 'dhcpd_omapi.j2' %}
 {% include 'dhcpd_common.j2' %}
-{% if hostvars[inventory_hostname]['dhcpd_common_options'] is defined %}
-{% for o in hostvars[inventory_hostname]['dhcpd_common_options'] %}
+{% if lookup('ansible.builtin.vars', 'dhcpd_common_options', default='')
+  not in ['', [], '[]', None] %}
+{% for o in lookup('ansible.builtin.vars', 'dhcpd_common_options') %}
 {{ 'option ' ~ o['name'] + ' code ' + o['code'] ~ ' = ' ~ o['type'] ~ ';' }}
 {% endfor %}
 {% endif %}
 {% include 'dhcpd_pxe.j2' %}
-{% if hostvars[inventory_hostname]['dhcpd_ddns_manage'] is defined
-   and hostvars[inventory_hostname]['dhcpd_ddns_manage'] == 'true' %}
+{% if lookup('ansible.builtin.vars', 'dhcpd_ddns_manage', default='') ==
+  'true' %}
 {% include 'dhcpd_ddns.j2' %}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_ifelse'] is defined %}
+{% if lookup('ansible.builtin.vars', 'dhcpd_ifelse', default='')
+  not in ['', [], '[]', None] %}
 {% include 'dhcpd_ifelse.j2' %}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_classes'] is defined %}
-{% for c in hostvars[inventory_hostname]['dhcpd_classes'] %}
+{% if lookup('ansible.builtin.vars', 'dhcpd_classes', default='')
+  not in ['', [], '[]', None] %}
+{% for c in lookup('ansible.builtin.vars', 'dhcpd_classes') %}
 {% include 'dhcpd_class.j2' %}
 {% endfor %}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_global_classes'] is defined
-   and (hostvars[inventory_hostname]['dhcpd_use_global'] is defined
-   and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
-{% for c in hostvars[inventory_hostname]['dhcpd_global_classes'] %}
+{% if lookup('ansible.builtin.vars', 'dhcpd_global_classes', default='')
+  not in ['', [], '[]', None] and lookup('ansible.builtin.vars',
+  'dhcpd_use_global', default='') == 'true' %}
+{% for c in lookup('ansible.builtin.vars', 'dhcpd_global_classes') %}
 {% include 'dhcpd_class.j2' %}
 {% endfor %}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_groups'] is defined %}
-{% for g in hostvars[inventory_hostname]['dhcpd_groups'] %}
+{% if lookup('ansible.builtin.vars', 'dhcpd_groups', default='')
+  not in ['', [], '[]', None] %}
+{% for g in lookup('ansible.builtin.vars', 'dhcpd_groups') %}
 {% include 'dhcpd_group.j2' %}
 {% endfor %}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_hosts'] is defined %}
-{% for h in hostvars[inventory_hostname]['dhcpd_hosts'] %}
+{% if lookup('ansible.builtin.vars', 'dhcpd_hosts', default='')
+  not in ['', [], '[]', None] %}
+{% for h in lookup('ansible.builtin.vars', 'dhcpd_hosts') %}
 {% include 'dhcpd_host.j2' %}
 {{ '}' }}
 {% endfor %}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_global_hosts'] is defined
-   and (hostvars[inventory_hostname]['dhcpd_use_global'] is defined
-   and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
-{% for h in hostvars[inventory_hostname]['dhcpd_global_hosts'] %}
+{% if lookup('ansible.builtin.vars', 'dhcpd_global_hosts', default='')
+  not in ['', [], '[]', None] and lookup('ansible.builtin.vars',
+  'dhcpd_use_global', default='') == 'true' %}
+{% for h in lookup('ansible.builtin.vars', 'dhcpd_global_hosts') %}
 {% include 'dhcpd_host.j2' %}
 {{ '}' }}
 {% endfor %}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_subnets'] is defined %}
-{% for s in hostvars[inventory_hostname]['dhcpd_subnets'] %}
+{% if lookup('ansible.builtin.vars', 'dhcpd_subnets', default='')
+  not in ['', [], '[]', None] %}
+{% for s in lookup('ansible.builtin.vars', 'dhcpd_subnets') %}
 {# start_subnet, patch for jinja 2.9 #}
 {% if s['base'] is defined and s['base'] | ansible.utils.ipaddr('net') %}
 {% include 'dhcpd_subnets.j2' %}
@@ -76,10 +81,10 @@
 {# end_subnet #}
 {% endfor %}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_global_subnets'] is defined
-   and (hostvars[inventory_hostname]['dhcpd_use_global'] is defined
-   and hostvars[inventory_hostname]['dhcpd_use_global'] == 'true') %}
-{% for s in hostvars[inventory_hostname]['dhcpd_global_subnets'] %}
+{% if lookup('ansible.builtin.vars', 'dhcpd_global_classes', default='')
+  not in ['', [], '[]', None] and lookup('ansible.builtin.vars',
+  'dhcpd_use_global', default='') == 'true' %}
+{% for s in lookup('ansible.builtin.vars', 'dhcpd_global_subnets') %}
 {# start_subnet, patch for jinja 2.9 #}
 {% if s['base'] is defined and s['base'] | ansible.utils.ipaddr('net') %}
 {% include 'dhcpd_subnets.j2' %}
@@ -98,8 +103,9 @@
 {# end_subnet #}
 {% endfor %}
 {% endif %}
-{% if hostvars[inventory_hostname]['dhcpd_shared_networks'] is defined %}
-{% for n in hostvars[inventory_hostname]['dhcpd_shared_networks'] %}
+{% if lookup('ansible.builtin.vars', 'dhcpd_shared_networks', default='')
+  not in ['', [], '[]', None] %}
+{% for n in lookup('ansible.builtin.vars', 'dhcpd_shared_networks') %}
 {% include 'dhcpd_sharednet.j2' %}
 {% endfor %}
 {% endif %}

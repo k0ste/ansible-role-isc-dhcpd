@@ -7,7 +7,7 @@
         start: "{{ '%a %b %d %H:%M:%S %Z %Y' | ansible.builtin.strftime() }}"
 - name: "dhcpd | Set facts about dhcpd group names"
   ansible.builtin.set_fact:
-    dhcpd_group_names: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
+    dhcpd_group_names: "{{ lookup('ansible.builtin.vars', 'dhcpd_groups') |
       community.general.json_query('[].name') }}"
 - name: "dhcpd | Import netaddr validation execution tasks"
   ansible.builtin.import_tasks:

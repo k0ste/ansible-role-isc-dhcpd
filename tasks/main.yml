@@ -3,12 +3,11 @@
   ansible.builtin.include_tasks:
     file: "scenarios/validation/main.yml"
   when:
-    - "hostvars[inventory_hostname]['dhcpd_scenario'] is defined"
-    - "hostvars[inventory_hostname]['dhcpd_scenario'] in ['validation', 'both']"
+    - "lookup('ansible.builtin.vars', 'dhcpd_scenario', default='') in
+      ['validation', 'both']"
 - name: "dhcpd | Load deploy scenarios"
   ansible.builtin.include_tasks:
     file: "scenarios/deploy/main.yml"
   when:
-    - "hostvars[inventory_hostname]['dhcpd_scenario'] is not defined or
-      (hostvars[inventory_hostname]['dhcpd_scenario'] is defined and
-       hostvars[inventory_hostname]['dhcpd_scenario'] in ['deploy', 'both'])"
+    - "lookup('ansible.builtin.vars', 'dhcpd_scenario', default='deploy') in
+      ['deploy', 'both']"

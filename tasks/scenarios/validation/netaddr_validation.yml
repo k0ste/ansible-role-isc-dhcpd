@@ -9,17 +9,15 @@
     success_msg: "{{ '[' ~ host['name'] ~ '] is ipaddr: ' ~
       host['fixed_address'] }}"
     quiet: "true"
-  loop: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
-    community.general.json_query(\"[?name=='\" ~ vars['outer_item'] ~
-    \"'].hosts\") | flatten(levels=1) }}"
+  loop: "{{ lookup('ansible.builtin.vars', 'dhcpd_groups') |
+    community.general.json_query(\"[?name=='\" ~ lookup('ansible.builtin.vars',
+    'dhcpd_group') ~ \"'].hosts\") | ansible.builtin.flatten(levels=1) }}"
   loop_control:
     loop_var: "host"
-    label: "{{ host['name'] }}"
+    label: "{{ 'Validate DHCP host Fixed address: ' ~ host['name'] }}"
   when:
     - "host['fixed_address'] is defined"
-    - "host['fixed_address'] != []"
-    - "host['fixed_address'] != ''"
-    - "host['fixed_address'] != None"
+    - "host['fixed_address'] not in ['', [], '[]', None]"
 - name: "dhcpd | Assert that broadcast address is ip address"
   ansible.builtin.assert:
     that:
@@ -30,17 +28,15 @@
     success_msg: "{{ '[' ~ host['name'] ~ '] is broadcast ipaddr: ' ~
       host['broadcast_address'] }}"
     quiet: "true"
-  loop: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
-    community.general.json_query(\"[?name=='\" ~ vars['outer_item'] ~
-    \"'].hosts\") | flatten(levels=1) }}"
+  loop: "{{ lookup('ansible.builtin.vars', 'dhcpd_groups') |
+    community.general.json_query(\"[?name=='\" ~ lookup('ansible.builtin.vars',
+    'dhcpd_group') ~ \"'].hosts\") | ansible.builtin.flatten(levels=1) }}"
   loop_control:
     loop_var: "host"
-    label: "{{ host['name'] }}"
+    label: "{{ 'Validate DHCP host Broadcast address: ' ~ host['name'] }}"
   when:
     - "host['broadcast_address'] is defined"
-    - "host['broadcast_address'] != []"
-    - "host['broadcast_address'] != ''"
-    - "host['broadcast_address'] != None"
+    - "host['broadcast_address'] not in ['', [], '[]', None]"
 - name: "dhcpd | Assert that mac address is hardware address in linux format"
   ansible.builtin.assert:
     that:
@@ -51,14 +47,12 @@
     success_msg: "{{ '[' ~ host['name'] ~ '] is maddr: ' ~
       host['mac_address'] }}"
     quiet: "true"
-  loop: "{{ hostvars[inventory_hostname]['dhcpd_groups'] |
-    community.general.json_query(\"[?name=='\" ~ vars['outer_item'] ~
-    \"'].hosts\") | flatten(levels=1) }}"
+  loop: "{{ lookup('ansible.builtin.vars', 'dhcpd_groups') |
+    community.general.json_query(\"[?name=='\" ~ lookup('ansible.builtin.vars',
+    'dhcpd_group') ~ \"'].hosts\") | ansible.builtin.flatten(levels=1) }}"
   loop_control:
     loop_var: "host"
-    label: "{{ host['name'] }}"
+    label: "{{ 'Validate DHCP host MAC address: ' ~ host['name'] }}"
   when:
     - "host['mac_address'] is defined"
-    - "host['mac_address'] != []"
-    - "host['mac_address'] != ''"
-    - "host['mac_address'] != None"
+    - "host['mac_address'] not in ['', [], '[]', None]"

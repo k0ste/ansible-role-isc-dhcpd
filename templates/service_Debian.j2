@@ -1,1 +1,2 @@
-{{ 'INTERFACES=\"' ~ hostvars[inventory_hostname]['dhcpd_interfaces'] ~ '\"' }}
+{{ 'INTERFACES=\"' ~ lookup('ansible.builtin.vars', 'dhcpd_interfaces') ~
+  '\"' }}

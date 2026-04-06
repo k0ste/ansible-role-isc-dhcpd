@@ -1,5 +1,6 @@
 {{ 'shared-network ' + n['name'] + ' {' }}
-{% if n['interface'] is defined and n['interface'] != '' %}
+{% if n['interface'] is defined and n['interface']
+  not in ['', [], '[]', None] %}
 {{ '  interface \"' + n['interface'] + '\";' }}
 {% endif %}
 {% for s in n['subnets'] %}
@@ -10,12 +11,12 @@
 {% include 'dhcpd_pool.j2' %}
 {% endfor %}
 {% endif %}
-{% if s['eval_if'] is defined and s['eval_if'] != '' %}
+{% if s['eval_if'] is defined and s['eval_if'] not in ['', [], '[]', None] %}
 {% for e in s['eval_if'] %}
 {{ '  ' }}{% include 'dhcpd_eval_if.j2' %}
 {% endfor %}
 {% endif %}
-{% if s['options'] is defined and s['options'] != '' %}
+{% if s['options'] is defined and s['options'] not in ['', [], '[]', None] %}
 {% for o in s['options'] %}
 {{ '  ' }}{% include 'dhcpd_options.j2' %}
 {% endfor %}
@@ -28,12 +29,12 @@
 {% include 'dhcpd_pool.j2' %}
 {% endfor %}
 {% endif %}
-{% if n['eval_if'] is defined and n['eval_if'] != '' %}
+{% if n['eval_if'] is defined and n['eval_if'] not in ['', [], '[]', None] %}
 {% for e in n['eval_if'] %}
 {{ '  ' }}{% include 'dhcpd_eval_if.j2' %}
 {% endfor %}
 {% endif %}
-{% if n['options'] is defined and n['options'] != '' %}
+{% if n['options'] is defined and n['options'] not in ['', [], '[]', None] %}
 {% for o in n['options'] %}
 {{ '  ' }}{% include 'dhcpd_options.j2' %}
 {% endfor %}

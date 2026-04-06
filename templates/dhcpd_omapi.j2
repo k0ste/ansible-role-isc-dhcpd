@@ -1,3 +1,4 @@
-{% if hostvars[inventory_hostname]['dhcpd_omapi_port'] is defined %}
-{{ 'omapi-port ' ~ hostvars[inventory_hostname]['dhcpd_omapi_port'] ~ + ';' }}
+{% if lookup('ansible.builtin.vars', 'dhcpd_omapi_port', default='')
+  not in ['', [], '[]', None] %}
+{{ 'omapi-port ' ~ lookup('ansible.builtin.vars', 'dhcpd_omapi_port') ~ ';' }}
 {% endif %}

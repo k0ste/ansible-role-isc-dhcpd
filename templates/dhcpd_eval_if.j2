@@ -1,5 +1,5 @@
 {{ 'if ' + e['condition'] + ' {' }}
-{% if e['value'] is defined and e['value'] != '' %}
+{% if e['value'] is defined and e['value'] not in ['', [], '[]', None] %}
 {% if e['value'] is string %}
 {{ '    ' + e['value'] + ';' }}
 {% elif e['value'] is sequence %}
@@ -8,11 +8,12 @@
 {% endfor %}
 {% endif %}
 {% endif %}
-{% if e['elsif'] is defined and e['elsif'] != '' %}
+{% if e['elsif'] is defined and e['elsif'] not in ['', [], '[]', None] %}
 {% for eel in e['elsif'] %}
-{% if eel['condition'] is defined and eel['condition'] != '' %}
+{% if eel['condition'] is defined and eel['condition']
+  not in ['', [], '[]', None] %}
 {{ '  } elsif ' + eel['condition'] + ' {' }}
-{% if eel['value'] is defined and eel['value'] != '' %}
+{% if eel['value'] is defined and eel['value'] not in ['', [], '[]', None] %}
 {% if eel['value'] is string %}
 {{ '    ' + eel['value'] + ';' }}
 {% elif eel['value'] is sequence %}
@@ -24,10 +25,10 @@
 {% endif %}
 {% endfor %}
 {% endif %}
-{% if e['else'] is defined and e['else'] != '' %}
+{% if e['else'] is defined and e['else'] not in ['', [], '[]', None] %}
 {% for ee in e['else'] %}
 {{ '  } else {'}}
-{% if ee['value'] is defined and ee['value'] != '' %}
+{% if ee['value'] is defined and ee['value'] not in ['', [], '[]', None] %}
 {% if ee['value'] is string %}
 {{ '    ' + ee['value'] + ';' }}
 {% elif ee['value'] is sequence %}

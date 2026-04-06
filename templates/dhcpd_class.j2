@@ -1,6 +1,6 @@
 {{ 'class \"' + c['name'] + '\" {' }}
 {{ '  ' + c['rule'] + ';' }}
-{% if c['options'] is defined and c['options'] != '' %}
+{% if c['options'] is defined and c['options'] not in ['', [], '[]', None] %}
 {% for o in c['options'] %}
 {{ '  ' }}{% include 'dhcpd_options.j2' %}
 {% endfor %}

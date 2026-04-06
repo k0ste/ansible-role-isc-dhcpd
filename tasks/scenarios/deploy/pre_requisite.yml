@@ -1,16 +1,17 @@
 ---
 - name: "dhcpd | Add the OS specific variables"
   ansible.builtin.include_vars:
-    file: "{{ hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
+    file: "{{ hostvars[inventory_hostname]['ansible_facts']['os_family'] +
+      '.yml' }}"
 - name: "dhcpd | Deploy dhcpd service conf"
   ansible.builtin.template:
-    src: "{{ 'service_' + hostvars[inventory_hostname]['ansible_os_family'] +
-      '.j2' }}"
-    dest: "{{ hostvars[inventory_hostname]['dhcpd_service_conf'] }}"
+    src: "{{ 'service_' +
+      hostvars[inventory_hostname]['ansible_facts']['os_family'] + '.j2' }}"
+    dest: "{{ lookup('ansible.builtin.vars', 'dhcpd_service_conf') }}"
     owner: "root"
     group: "root"
     mode: "0644"
   when:
-    - "hostvars[inventory_hostname]['ansible_os_family'] == 'Debian'"
+    - "hostvars[inventory_hostname]['ansible_facts']['os_family'] == 'Debian'"
   notify:
     - "Restart dhcpd"

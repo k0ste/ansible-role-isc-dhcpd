@@ -1,1 +1,1 @@
-{{ 'DHCPDARGS=\"' ~ hostvars[inventory_hostname]['dhcpd_interfaces'] ~ '\"' }}
+{{ 'DHCPDARGS=\"' ~ lookup('ansible.builtin.vars', 'dhcpd_interfaces') ~ '\"' }}
